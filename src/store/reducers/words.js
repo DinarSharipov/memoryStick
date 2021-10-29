@@ -1,4 +1,9 @@
-import { FETCH_ALL_WORDS, FETCH_START } from "../actions/actionTypes";
+import {
+  ADD_NEW_WORD,
+  FETCH_ALL_WORDS,
+  FETCH_START,
+  ALL_WORDS_LENGTH,
+} from "../actions/actionTypes";
 
 const initialState = {
   modeList: [
@@ -10,6 +15,7 @@ const initialState = {
     { name: "50 слов", id: 50 },
   ],
   AllWords: [],
+  length: 0,
   loading: false,
 };
 
@@ -25,6 +31,15 @@ export default function wordsReducer(state = initialState, action) {
       return {
         ...state,
         loading: true,
+      };
+    case ADD_NEW_WORD:
+      return {
+        ...state,
+      };
+    case ALL_WORDS_LENGTH:
+      return {
+        ...state,
+        length: action.length,
       };
 
     default:

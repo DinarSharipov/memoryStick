@@ -5,10 +5,11 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import AddWords from "../AddWords/AddWords";
 import classes from "./MemorizedWords.module.css";
+import { fetchAllWordsLength } from "../../store/actions/words";
 
 class MemorizedWordsMode extends Component {
   componentDidMount() {
-    console.log(this.props.modeList);
+    this.props.fetchAllWordsLength();
   }
   render() {
     return (
@@ -24,7 +25,6 @@ class MemorizedWordsMode extends Component {
                   <Button
                     sx={{ fontSize: "22px", p: 1, width: 300 }}
                     variant="text"
-                    onClick={() => console.log(this.props)}
                   >
                     {item.name}
                   </Button>
@@ -44,5 +44,10 @@ function mapStateToProps(state) {
     modeList: state.words.modeList,
   };
 }
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchAllWordsLength: () => dispatch(fetchAllWordsLength()),
+  };
+}
 
-export default connect(mapStateToProps)(MemorizedWordsMode);
+export default connect(mapStateToProps, mapDispatchToProps)(MemorizedWordsMode);

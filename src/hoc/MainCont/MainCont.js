@@ -1,7 +1,8 @@
+import { Container } from "@mui/material";
 import React, { Component } from "react";
 
 export default class MainCont extends Component {
   render() {
-    return <div>{this.props.children}</div>;
+    return <Container maxWidth="md">{this.props.children}</Container>;
   }
 }

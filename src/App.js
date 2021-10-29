@@ -4,6 +4,7 @@ import MainCont from "./hoc/MainCont/MainCont";
 import { Route, Switch } from "react-router-dom";
 import MemorizedWordsMode from "./containers/MemorizedWords/MemorizedWordsMode";
 import MemorizedGame from "./components/MemorizedGame/MemorizedGame";
+import WordsList from "./containers/WordsList/WordsList";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={MemorizedWordsMode} />
           <Route path="/mode/:id" exact component={MemorizedGame} />
+          <Route path="/wordslist" exact component={WordsList} />
         </Switch>
       </MainCont>
     </div>
