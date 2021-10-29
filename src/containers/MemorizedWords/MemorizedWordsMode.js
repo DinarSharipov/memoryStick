@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 import AddWords from "../AddWords/AddWords";
 import classes from "./MemorizedWords.module.css";
 import { fetchAllWordsLength } from "../../store/actions/words";
+import { bgcolor } from "@mui/system";
 
 class MemorizedWordsMode extends Component {
   componentDidMount() {
@@ -15,7 +16,17 @@ class MemorizedWordsMode extends Component {
     return (
       <Container maxWidth="md">
         <ul className={classes.modeList}>
-          <Typography variant="h4" sx={{ pb: 10, pt: 10 }} color="primary">
+          <Typography
+            variant="h4"
+            sx={{
+              mb: 3,
+              mt: 3,
+              p: 2,
+              backgroundColor: "rgb(0, 188, 255, 0.3)",
+              borderRadius: 8,
+            }}
+            color="Window"
+          >
             Выберите количество слов для запоминания!
           </Typography>
           {this.props.modeList.map((item) => {
@@ -23,7 +34,14 @@ class MemorizedWordsMode extends Component {
               <li key={item.id}>
                 <NavLink to={"/mode/" + item.id}>
                   <Button
-                    sx={{ fontSize: "22px", p: 1, width: 300 }}
+                    sx={{
+                      fontSize: "22px",
+                      p: 1,
+                      m: 1,
+                      width: 300,
+                      backgroundColor: "rgb(0, 188, 255, 0.3)",
+                      borderRadius: 8,
+                    }}
                     variant="text"
                   >
                     {item.name}

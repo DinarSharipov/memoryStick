@@ -4,21 +4,27 @@ import {
   FETCH_ALL_WORDS,
   FETCH_START,
   ALL_WORDS_LENGTH,
+  DELETE_WORD,
 } from "./actionTypes";
 
 export function fetchAllWordsLength() {
   return async (dispatch) => {
     try {
       const response = await axios.get("/allwords.json");
+      const wordsList = response.data;
       const length = Object.keys(response.data).length;
-      dispatch({ type: ALL_WORDS_LENGTH, length });
+      dispatch({
+        type: ALL_WORDS_LENGTH,
+        length: length,
+        wordsList: wordsList,
+      });
     } catch (e) {
       console.log(e);
     }
   };
 }
 
-export function fetchAllWords(id) {
+export function fetchModeWords(id) {
   return async (dispatch) => {
     dispatch(fetchStart());
     try {
@@ -48,6 +54,19 @@ export function addNewWord(newWord) {
       console.log(error);
     }
   };
+}
+
+export function deleteWord(id) {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`/allwords/${id}.json`);
+      dispatch({ type: DELETE_WORD });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log("Запущено удаление на сервере");
+  //
 }
 
 export function fetchWordsSuccess(AllWords, length) {

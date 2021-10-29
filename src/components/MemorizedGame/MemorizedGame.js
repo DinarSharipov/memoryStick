@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchAllWords } from "../../store/actions/words";
+import { fetchModeWords } from "../../store/actions/words";
 import {
   Button,
   Stack,
@@ -17,7 +17,7 @@ class MemorizedGame extends Component {
     checked: true,
   };
   componentDidMount() {
-    this.props.fetchAllWords(this.props.match.params.id);
+    this.props.fetchModeWords(this.props.match.params.id);
     console.log(this.props.length);
   }
   render() {
@@ -54,7 +54,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchAllWords: (id) => dispatch(fetchAllWords(id)),
+    fetchModeWords: (id) => dispatch(fetchModeWords(id)),
   };
 }
 

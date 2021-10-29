@@ -3,6 +3,7 @@ import {
   FETCH_ALL_WORDS,
   FETCH_START,
   ALL_WORDS_LENGTH,
+  DELETE_WORD,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   AllWords: [],
   length: 0,
   loading: false,
+  wordsList: "",
 };
 
 export default function wordsReducer(state = initialState, action) {
@@ -40,6 +42,12 @@ export default function wordsReducer(state = initialState, action) {
       return {
         ...state,
         length: action.length,
+        wordsList: action.wordsList,
+      };
+
+    case DELETE_WORD:
+      return {
+        ...state,
       };
 
     default:
