@@ -3,16 +3,18 @@ import classes from "./Loader.module.css";
 
 const LoaderComp = () => {
   return (
-    <div className={classes.ldsGrid}>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+    <div className={classes.container}>
+      <div className={classes.ldsGrid}>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
   );
 };

@@ -14,7 +14,7 @@ const composeEnhancers =
     : compose;
 
 //Инициализация State
-const store = createStore(
+export const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(thunk))
 );

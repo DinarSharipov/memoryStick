@@ -51,7 +51,7 @@ class MemorizedWordsMode extends Component {
             );
           })}
         </ul>
-        <AddWords />
+        <AddWords AllWords={this.props.AllWords} />
       </Container>
     );
   }
@@ -59,6 +59,7 @@ class MemorizedWordsMode extends Component {
 
 function mapStateToProps(state) {
   return {
+    AllWords: state.words.AllWords,
     modeList: state.words.modeList,
   };
 }

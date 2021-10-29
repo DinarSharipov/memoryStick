@@ -9,35 +9,92 @@ import {
   Switch,
   Box,
   Fade,
+  TextField,
+  Collapse,
 } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
+import LoaderComp from "../UI/Loader/LoaderComp";
 
 class MemorizedGame extends Component {
   state = {
-    checked: true,
+    checked: false,
+    display: "none",
   };
+
+  handleChange = () => {
+    this.setState({
+      checked: !this.state.checked,
+    });
+  };
+
+  renderGame() {
+    return this.props.AllWords.map((item, index) => {
+      return (
+        <>
+          <Stack alignItems="center" key={index} spacing={1}>
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{
+                height: "50px",
+                width: "100%",
+                m: 2,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+              }}
+            >
+              <Chip
+                sx={{ fontSize: 24, p: 2 }}
+                color="primary"
+                label={item.eng}
+              />
+              <Chip
+                sx={{
+                  display: this.state.checked ? "none" : "flex",
+                  fontSize: 24,
+                  p: 2,
+                }}
+                color="success"
+                label={item.rus}
+              />
+              <Collapse in={this.state.checked}>
+                <TextField
+                  sx={{ width: 300 }}
+                  size="small"
+                  label="Напишите перевод слова"
+                />
+              </Collapse>
+            </Stack>
+          </Stack>
+        </>
+      );
+    });
+  }
   componentDidMount() {
     this.props.fetchModeWords(this.props.match.params.id);
-    console.log(this.props.length);
   }
   render() {
     return (
       <div>
-        {!this.props.loading && this.props.AllWords[0] ? (
+        {!this.props.loading && this.props.AllWords ? (
           <div>
-            {this.props.AllWords.map((item, index) => {
-              return (
-                <Stack alignItems="center" key={index} spacing={1}>
-                  <Stack direction="row" spacing={1} sx={{ m: 1 }}>
-                    <Chip color="primary" label={item.eng} />
-                    <Chip color="success" label={item.rus} />
-                  </Stack>
-                </Stack>
-              );
-            })}
+            {this.renderGame()}
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={this.state.checked}
+                  onChange={this.handleChange}
+                />
+              }
+              label="Show"
+            />
+            <Button variant="outlined" color="info">
+              Проверить слова!
+            </Button>
           </div>
         ) : (
-          <h1 onClick={() => console.log(this.props.loading)}>Ждем....</h1>
+          <LoaderComp />
         )}
       </div>
     );

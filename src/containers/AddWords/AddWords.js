@@ -5,6 +5,7 @@ import { Box } from "@mui/system";
 import { connect } from "react-redux";
 import { addNewWord } from "../../store/actions/words";
 import { fetchAllWordsLength } from "../../store/actions/words";
+import { store } from "../..";
 
 class AddWords extends Component {
   state = {
@@ -15,7 +16,10 @@ class AddWords extends Component {
       color: "primary",
       bg: "outlined",
     },
+    wordsListLength: 0,
   };
+
+  componentDidMount() {}
 
   clearInputs() {
     this.setState({
@@ -78,6 +82,7 @@ class AddWords extends Component {
               this.props.addNewWord({
                 eng: this.state.engUserWord,
                 rus: this.state.rusUserWord,
+                id: Object.keys(store.getState().words.wordsList).length + 1,
               });
               this.clearInputs();
             }}

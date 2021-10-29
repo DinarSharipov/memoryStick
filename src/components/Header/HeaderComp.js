@@ -12,37 +12,42 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchAllWordsLength } from "../../store/actions/words";
 import LoaderComp from "../UI/Loader/LoaderComp";
+import { ThemeProvider } from "@mui/system";
+import { theme } from "../UI/UIColors/UiColors";
 
 class HeaderComp extends Component {
   componentDidMount() {
     this.props.fetchAllWordsLength();
+    console.log(theme);
   }
   render() {
     return (
       <div>
-        <Box>
-          <AppBar position="relative" color="primary">
-            <Toolbar>
-              <Typography variant="h6">Учим English!</Typography>
-              <NavLink to="/" style={{ marginLeft: 20 }}>
-                <IconButton>
-                  <HomeOutlined color="inherit" />
-                </IconButton>
-              </NavLink>
-              <LearnedWords />
-              <NavLink
-                to="/wordslist"
-                style={{ marginLeft: 20, color: "white" }}
-              >
-                <Button variant="outlined" color="inherit">
-                  Показать все слова
-                  <ViewListOutlinedIcon sx={{ ml: 2 }} />
-                </Button>
-              </NavLink>
-            </Toolbar>
-          </AppBar>
-          <div className="wrapper"></div>
-        </Box>
+        <ThemeProvider theme={theme}>
+          <Box>
+            <AppBar position="relative" color="BgGradient1">
+              <Toolbar>
+                <Typography variant="h6">Учим English!</Typography>
+                <NavLink to="/" style={{ marginLeft: 20 }}>
+                  <IconButton>
+                    <HomeOutlined color="inherit" />
+                  </IconButton>
+                </NavLink>
+                <LearnedWords />
+                <NavLink
+                  to="/wordslist"
+                  style={{ marginLeft: 20, color: "white" }}
+                >
+                  <Button variant="outlined" color="inherit">
+                    Показать все слова
+                    <ViewListOutlinedIcon sx={{ ml: 2 }} />
+                  </Button>
+                </NavLink>
+              </Toolbar>
+            </AppBar>
+            <div className="wrapper"></div>
+          </Box>
+        </ThemeProvider>
       </div>
     );
   }

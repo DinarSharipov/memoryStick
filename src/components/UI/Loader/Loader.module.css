@@ -1,3 +1,15 @@
+.container {
+  background: rgb(158, 158, 158);
+  opacity: 0.4;
+  position: absolute;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .ldsGrid {
   display: inline-block;
   position: relative;
