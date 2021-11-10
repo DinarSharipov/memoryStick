@@ -32,7 +32,7 @@ class MemorizedWordsMode extends Component {
           {this.props.modeList.map((item) => {
             return (
               <li key={item.id}>
-                <NavLink to={"/mode/" + item.id}>
+                <NavLink to={"/mode/" + item.modeLength}>
                   <Button
                     sx={{
                       fontSize: "22px",

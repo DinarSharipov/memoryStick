@@ -56,24 +56,28 @@ class AddWords extends Component {
           <TextField
             sx={{ flexGrow: 1, mr: 1, mt: 2 }}
             size="small"
-            id="1"
+            
             value={this.state.engUserWord}
             label="Напишите слово на английском"
             onChange={(e) => {
+              let word = this.state.engUserWord
+              word = e.target.value.replace(/[ ,.0-9]/g, '')
               this.setState({
-                engUserWord: e.target.value,
+                engUserWord: word,
               });
             }}
           />
           <TextField
             sx={{ flexGrow: 1, mr: 1, mt: 2 }}
             size="small"
-            id="1"
+            
             value={this.state.rusUserWord}
             label="Напишите перевод слова"
             onChange={(e) => {
+              let word = this.state.rusUserWord
+              word = e.target.value.replace(/[ ,.0-9]/g, '')
               this.setState({
-                rusUserWord: e.target.value,
+                rusUserWord: word,
               });
             }}
           />
@@ -82,7 +86,10 @@ class AddWords extends Component {
               this.props.addNewWord({
                 eng: this.state.engUserWord,
                 rus: this.state.rusUserWord,
-                id: Object.keys(store.getState().words.wordsList).length + 1,
+                statistics: {
+                  true: 0,
+                  false: 0
+                }
               });
               this.clearInputs();
             }}

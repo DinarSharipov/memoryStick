@@ -8,12 +8,12 @@ import {
 
 const initialState = {
   modeList: [
-    { name: "3 слова", id: 3 },
-    { name: "5 слов", id: 5 },
-    { name: "10 слов", id: 10 },
-    { name: "20 слов", id: 20 },
-    { name: "30 слов", id: 30 },
-    { name: "50 слов", id: 50 },
+    { name: "3 слова", modeLength: 3 },
+    { name: "5 слов", modeLength: 5 },
+    { name: "10 слов", modeLength: 10 },
+    { name: "20 слов", modeLength: 20 },
+    { name: "30 слов", modeLength: 30 },
+    { name: "50 слов", modeLength: 50 },
   ],
   AllWords: [],
   length: 0,

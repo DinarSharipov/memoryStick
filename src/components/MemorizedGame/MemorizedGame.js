@@ -14,11 +14,13 @@ import {
 } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import LoaderComp from "../UI/Loader/LoaderComp";
+import { Link, NavLink } from "react-router-dom";
 
 class MemorizedGame extends Component {
   state = {
     checked: false,
     display: "none",
+    gameResults: [],
   };
 
   handleChange = () => {
@@ -27,8 +29,40 @@ class MemorizedGame extends Component {
     });
   };
 
+  checkWord(event, word, index){
+    console.log(word);
+    if(this.state.gameResults[index]){
+      
+      let gameResults = this.state.gameResults;
+      
+      let statistics = word.statistics
+     
+      word.rus === event.target.value ? ++statistics.true : ++statistics.false
+   
+
+      gameResults.splice(index, 1, {id: word.id, engWord: word.eng, rusWord: word.rus, userWord:event.target.value, trueFalse: Boolean(word.rus === event.target.value) , statistics})
+      this.setState({
+        gameResults,
+      })
+    }else {
+      let gameResults = this.state.gameResults;
+      let statistics = word.statistics
+      
+
+      word.rus === event.target.value ? ++statistics.true : ++statistics.false
+     
+      gameResults.push({id: word.id, engWord: word.eng, rusWord: word.rus, userWord:event.target.value, trueFalse: Boolean(word.rus === event.target.value) , statistics})
+      this.setState({
+        gameResults
+      })
+    }
+   
+    console.log(this.state.gameResults);
+    
+  }
+
   renderGame() {
-    return this.props.AllWords.map((item, index) => {
+    return this.props.AllWords.map((word, index) => {
       return (
         <>
           <Stack alignItems="center" key={index} spacing={1}>
@@ -47,7 +81,7 @@ class MemorizedGame extends Component {
               <Chip
                 sx={{ fontSize: 24, p: 2 }}
                 color="primary"
-                label={item.eng}
+                label={word.eng}
               />
               <Chip
                 sx={{
@@ -56,13 +90,14 @@ class MemorizedGame extends Component {
                   p: 2,
                 }}
                 color="success"
-                label={item.rus}
+                label={word.rus}
               />
               <Collapse in={this.state.checked}>
                 <TextField
                   sx={{ width: 300 }}
                   size="small"
                   label="Напишите перевод слова"
+                  onBlur={(event)=> this.checkWord(event, word, index)}
                 />
               </Collapse>
             </Stack>
@@ -89,9 +124,16 @@ class MemorizedGame extends Component {
               }
               label="Show"
             />
-            <Button variant="outlined" color="info">
+            <Link to={{
+            pathname: "/gameresults",
+            propsSearch: this.state.gameResults
+        }}>
+            <Button variant="outlined" color="info"
+            
+            >
               Проверить слова!
             </Button>
+            </Link>
           </div>
         ) : (
           <LoaderComp />

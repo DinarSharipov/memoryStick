@@ -27,11 +27,9 @@ class HeaderComp extends Component {
           <Box>
             <AppBar position="relative" color="BgGradient1">
               <Toolbar>
+                
+                <NavLink to="/" style={{ marginRight: 20, color: "#fff" }} >
                 <Typography variant="h6">Учим English!</Typography>
-                <NavLink to="/" style={{ marginLeft: 20 }}>
-                  <IconButton>
-                    <HomeOutlined color="inherit" />
-                  </IconButton>
                 </NavLink>
                 <LearnedWords />
                 <NavLink

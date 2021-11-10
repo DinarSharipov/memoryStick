@@ -7,6 +7,7 @@ import {
   TableBody,
   Button,
   TextField,
+  Alert,
 } from "@mui/material";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -61,6 +62,24 @@ class WordsList extends Component {
     });
   }
 
+  lastAnswer(answer){
+    if(answer == true){
+      return <Alert variant="string" sx={{color: "green"}} severity="success">Ответ был правльным</Alert>
+    } else if(answer === undefined){
+      return "Не было игр"
+    } else {
+      return <Alert variant="string" sx={{color: "red"}} severity="error">Ответ был ошибочным</Alert>
+    }
+
+  }
+
+  getStatistics(word){
+    if(word.lastAnswer == undefined){
+      return "-"
+    }
+    return word.statistics.true * 100 /(word.statistics.true + word.statistics.false) + "%"
+  }
+
   render() {
     return (
       <div>
@@ -72,24 +91,29 @@ class WordsList extends Component {
           <>
             <SearchComp searchFunc={this.searchFunc} />
             <TableContainer>
-              <Table sx={{ minWidth: 650 }} aria-label="caption table">
+              <Table sx={{ minWidth: 850 }} aria-label="caption table">
                 <TableHead sx={{ fontSize: "34px" }}>
                   <TableRow>
                     <TableCell sx={{ fontSize: "20px" }} align="left">
                       Номер по порядку
                     </TableCell>
-                    <TableCell sx={{ fontSize: "20px" }} align="left">
-                      id
-                    </TableCell>
+                    
                     <TableCell sx={{ fontSize: "20px" }} align="right">
                       Слово на Аглийском
                     </TableCell>
                     <TableCell sx={{ fontSize: "20px" }} align="right">
                       Слово на русском
                     </TableCell>
+                    <TableCell sx={{ fontSize: "20px" }} align="left">
+                      Последний результат игры
+                    </TableCell>
+                    <TableCell sx={{ fontSize: "20px" }} align="left">
+                      Статистика правильных ответов
+                    </TableCell>
                     <TableCell sx={{ fontSize: "20px" }} align="right">
                       Актуальность
                     </TableCell>
+                    
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -98,15 +122,19 @@ class WordsList extends Component {
                       <TableCell sx={{ fontSize: "20px" }} align="left">
                         {index + 1}
                       </TableCell>
-                      <TableCell sx={{ fontSize: "20px" }} align="left">
-                        {word.id}
-                      </TableCell>
+                      
                       <TableCell sx={{ fontSize: "20px" }} align="right">
                         {word.eng}
                       </TableCell>
                       <TableCell sx={{ fontSize: "20px" }} align="right">
                         {word.rus}
                       </TableCell>
+                      <TableCell  sx={{ fontSize: "20px" }} align="left">
+                        {this.lastAnswer(word.lastAnswer)}
+                      </TableCell>
+                      <TableCell sx={{ fontSize: "20px" }} align="left">
+                      { this.getStatistics(word) }
+                    </TableCell>
                       <TableCell sx={{ fontSize: "20px" }} align="right">
                         <Button onClick={() => this.deleteWord1(index)}>
                           Удалить

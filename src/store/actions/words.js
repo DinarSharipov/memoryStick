@@ -5,6 +5,7 @@ import {
   FETCH_START,
   ALL_WORDS_LENGTH,
   DELETE_WORD,
+  PUSH_RESULTS,
 } from "./actionTypes";
 
 export function fetchAllWordsLength() {
@@ -36,7 +37,7 @@ export function fetchModeWords(id) {
         if (AllWords.length == id) {
           return;
         }
-        AllWords.push(response.data[item]);
+        AllWords.push(Object.assign(response.data[item], {id: item}));
       });
       dispatch(fetchWordsSuccess(AllWords, length));
     } catch (e) {
@@ -85,5 +86,22 @@ export function fetchStart() {
 export function pushWord() {
   return {
     type: ADD_NEW_WORD,
+  };
+}
+
+export function pushResults(results){
+  console.log(results);
+  return async () => {
+    try {
+      await results.forEach((word)=> {
+        
+        let newword = {eng: word.engWord, rus: word.rusWord, lastAnswer: word.trueFalse, statistics: word.statistics}
+      const response = axios.put(`/allwords/${word.id}/.json`, newword)
+      console.log(response);
+      })
+
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
