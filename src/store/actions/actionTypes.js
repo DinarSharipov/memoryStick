@@ -4,3 +4,6 @@ export const ADD_NEW_WORD = "ADD_NEW_WORD";
 export const ALL_WORDS_LENGTH = "ALL_WORDS_LENGTH";
 export const DELETE_WORD = "DELETE_WORD";
 export const PUSH_RESULTS = "PUSH_RESULTS";
+export const FETCH_APPLIST = "FETCH_APPLIST";
+export const AUTH_LOGIN = "AUTH_LOGIN";
+export const AUTH_REGISTRATION = "AUTH_REGISTRATION";

@@ -5,12 +5,12 @@ import { Box } from "@mui/system";
 const SearchComp = (props) => {
   return (
     <div>
-      <Box sx={{ width: "100%", p: 2, textAlign: "center" }}>
+      <Box>
         <TextField
+          size="small"
           onChange={(e) => props.searchFunc(e.target.value)}
-          sx={{ width: "60%" }}
-          id="1"
-          label="Что ищем?"
+          sx={{ width: "100%" }}
+          label="Какое слово потеряли?"
         />
       </Box>
     </div>

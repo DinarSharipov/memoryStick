@@ -33,12 +33,23 @@ export function fetchModeWords(id) {
       const response = await axios.get("/allwords.json");
       const length = Object.keys(response.data).length;
 
-      Object.keys(response.data).forEach((item) => {
+      for (let [key, value] of Object.entries(response.data)) {
         if (AllWords.length == id) {
-          return;
+          break;
+        } else if (key == "AppInfo") {
+          continue;
+        } else {
+          AllWords.push(Object.assign(value, { id: key }));
         }
-        AllWords.push(Object.assign(response.data[item], {id: item}));
-      });
+      }
+
+      // Object.keys(response.data).forEach((item, i) => {
+      //   if (AllWords.length == id) {
+      //     return;
+      //   }
+
+      //   AllWords.push(Object.assign(response.data[item], { id: item }));
+      // });
       dispatch(fetchWordsSuccess(AllWords, length));
     } catch (e) {
       console.log(e);
@@ -89,17 +100,20 @@ export function pushWord() {
   };
 }
 
-export function pushResults(results){
+export function pushResults(results) {
   console.log(results);
   return async () => {
     try {
-      await results.forEach((word)=> {
-        
-        let newword = {eng: word.engWord, rus: word.rusWord, lastAnswer: word.trueFalse, statistics: word.statistics}
-      const response = axios.put(`/allwords/${word.id}/.json`, newword)
-      console.log(response);
-      })
-
+      await results.forEach((word) => {
+        let newword = {
+          eng: word.engWord,
+          rus: word.rusWord,
+          lastAnswer: word.trueFalse,
+          statistics: word.statistics,
+        };
+        const response = axios.put(`/allwords/${word.id}/.json`, newword);
+        console.log(response);
+      });
     } catch (error) {
       console.log(error);
     }

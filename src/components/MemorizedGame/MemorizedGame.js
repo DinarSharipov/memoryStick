@@ -7,8 +7,6 @@ import {
   Chip,
   FormControlLabel,
   Switch,
-  Box,
-  Fade,
   TextField,
   Collapse,
 } from "@mui/material";
@@ -21,6 +19,7 @@ class MemorizedGame extends Component {
     checked: false,
     display: "none",
     gameResults: [],
+    gameRandomWords: [],
   };
 
   handleChange = () => {
@@ -29,36 +28,46 @@ class MemorizedGame extends Component {
     });
   };
 
-  checkWord(event, word, index){
+  checkWord(event, word, index) {
     console.log(word);
-    if(this.state.gameResults[index]){
-      
+    if (this.state.gameResults[index]) {
       let gameResults = this.state.gameResults;
-      
-      let statistics = word.statistics
-     
-      word.rus === event.target.value ? ++statistics.true : ++statistics.false
-   
 
-      gameResults.splice(index, 1, {id: word.id, engWord: word.eng, rusWord: word.rus, userWord:event.target.value, trueFalse: Boolean(word.rus === event.target.value) , statistics})
+      let statistics = word.statistics;
+
+      word.rus === event.target.value ? ++statistics.true : ++statistics.false;
+
+      gameResults.splice(index, 1, {
+        id: word.id,
+        engWord: word.eng,
+        rusWord: word.rus,
+        userWord: event.target.value,
+        trueFalse: Boolean(word.rus === event.target.value),
+        statistics,
+      });
       this.setState({
         gameResults,
-      })
-    }else {
+      });
+    } else {
       let gameResults = this.state.gameResults;
-      let statistics = word.statistics
-      
+      let statistics = word.statistics;
 
-      word.rus === event.target.value ? ++statistics.true : ++statistics.false
-     
-      gameResults.push({id: word.id, engWord: word.eng, rusWord: word.rus, userWord:event.target.value, trueFalse: Boolean(word.rus === event.target.value) , statistics})
+      word.rus === event.target.value ? ++statistics.true : ++statistics.false;
+
+      gameResults.push({
+        id: word.id,
+        engWord: word.eng,
+        rusWord: word.rus,
+        userWord: event.target.value,
+        trueFalse: Boolean(word.rus === event.target.value),
+        statistics,
+      });
       this.setState({
-        gameResults
-      })
+        gameResults,
+      });
     }
-   
+
     console.log(this.state.gameResults);
-    
   }
 
   renderGame() {
@@ -97,7 +106,7 @@ class MemorizedGame extends Component {
                   sx={{ width: 300 }}
                   size="small"
                   label="Напишите перевод слова"
-                  onBlur={(event)=> this.checkWord(event, word, index)}
+                  onBlur={(event) => this.checkWord(event, word, index)}
                 />
               </Collapse>
             </Stack>
@@ -116,23 +125,24 @@ class MemorizedGame extends Component {
           <div>
             {this.renderGame()}
             <FormControlLabel
+              disabled={this.state.checked}
               control={
                 <Switch
                   checked={this.state.checked}
                   onChange={this.handleChange}
                 />
               }
-              label="Show"
+              label="Готов!"
             />
-            <Link to={{
-            pathname: "/gameresults",
-            propsSearch: this.state.gameResults
-        }}>
-            <Button variant="outlined" color="info"
-            
+            <Link
+              to={{
+                pathname: "/gameresults",
+                propsSearch: this.state.gameResults,
+              }}
             >
-              Проверить слова!
-            </Button>
+              <Button variant="outlined" color="info">
+                Проверить слова!
+              </Button>
             </Link>
           </div>
         ) : (

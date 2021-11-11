@@ -58,7 +58,7 @@ const GameResults = (props) => {
         </Table>
       </TableContainer>
       <ButtonGroup sx={{ p: 2 }}>
-        <Link to="/">
+        <Link to="/allwords">
           <Button onClick={() => props.pushResults(props.location.propsSearch)}>
             Сохранить результат
           </Button>

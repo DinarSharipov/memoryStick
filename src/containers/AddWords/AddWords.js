@@ -51,31 +51,34 @@ class AddWords extends Component {
             flexWrap: "wrap",
             alignItems: "center",
             justifyContent: "center",
+            ml: 2,
           }}
         >
           <TextField
-            sx={{ flexGrow: 1, mr: 1, mt: 2 }}
+            sx={{ flexGrow: 1, mr: 1 }}
+            color="success"
             size="small"
-            
+            variant="outlined"
             value={this.state.engUserWord}
             label="Напишите слово на английском"
             onChange={(e) => {
-              let word = this.state.engUserWord
-              word = e.target.value.replace(/[ ,.0-9]/g, '')
+              let word = this.state.engUserWord;
+              word = e.target.value.replace(/[ ,.0-9]/g, "");
               this.setState({
                 engUserWord: word,
               });
             }}
           />
           <TextField
-            sx={{ flexGrow: 1, mr: 1, mt: 2 }}
+            sx={{ flexGrow: 1, mr: 1 }}
+            color="success"
             size="small"
-            
+            variant="outlined"
             value={this.state.rusUserWord}
             label="Напишите перевод слова"
             onChange={(e) => {
-              let word = this.state.rusUserWord
-              word = e.target.value.replace(/[ ,.0-9]/g, '')
+              let word = this.state.rusUserWord;
+              word = e.target.value.replace(/[ ,.0-9]/g, "");
               this.setState({
                 rusUserWord: word,
               });
@@ -88,12 +91,12 @@ class AddWords extends Component {
                 rus: this.state.rusUserWord,
                 statistics: {
                   true: 0,
-                  false: 0
-                }
+                  false: 0,
+                },
               });
               this.clearInputs();
             }}
-            sx={{ p: 0.9, mt: 2 }}
+            sx={{ p: 0.9 }}
             variant={this.state.successBtn.bg}
             color={this.state.successBtn.color}
           >

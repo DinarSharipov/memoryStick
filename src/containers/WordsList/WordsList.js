@@ -8,6 +8,7 @@ import {
   Button,
   TextField,
   Alert,
+  Grid,
 } from "@mui/material";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -16,11 +17,20 @@ import { fetchAllWordsLength } from "../../store/actions/words";
 import LoaderComp from "../../components/UI/Loader/LoaderComp";
 import { Box } from "@mui/system";
 import SearchComp from "../../components/SearchComp/SearchComp";
+import { Link } from "react-router-dom";
 
 class WordsList extends Component {
   state = {
     words: [],
     wordsCopy: [],
+    tableHeadRowCells: [
+      "Номер по порядку",
+      "Слово на Аглийском",
+      "Слово на русском",
+      "Последний результат игры",
+      "Статистика правильных ответов",
+      " Актуальность",
+    ],
   };
 
   async componentDidMount() {
@@ -62,22 +72,33 @@ class WordsList extends Component {
     });
   }
 
-  lastAnswer(answer){
-    if(answer == true){
-      return <Alert variant="string" sx={{color: "green"}} severity="success">Ответ был правльным</Alert>
-    } else if(answer === undefined){
-      return "Не было игр"
+  lastAnswer(answer) {
+    if (answer == true) {
+      return (
+        <Alert variant="string" sx={{ color: "green" }} severity="success">
+          Ответ был правльным
+        </Alert>
+      );
+    } else if (answer === undefined) {
+      return "Не было игр";
     } else {
-      return <Alert variant="string" sx={{color: "red"}} severity="error">Ответ был ошибочным</Alert>
+      return (
+        <Alert variant="string" sx={{ color: "red" }} severity="error">
+          Ответ был ошибочным
+        </Alert>
+      );
     }
-
   }
 
-  getStatistics(word){
-    if(word.lastAnswer == undefined){
-      return "-"
+  getStatistics(word) {
+    if (word.lastAnswer == undefined) {
+      return "-";
     }
-    return word.statistics.true * 100 /(word.statistics.true + word.statistics.false) + "%"
+    return (
+      (word.statistics.true * 100) /
+        (word.statistics.true + word.statistics.false) +
+      "%"
+    );
   }
 
   render() {
@@ -89,31 +110,30 @@ class WordsList extends Component {
           </div>
         ) : (
           <>
-            <SearchComp searchFunc={this.searchFunc} />
+            <Grid container alignItems="center" justifyContent="space-between">
+              <Grid item xs={2}>
+                <Link to="/allwords">
+                  <Button size="large" color="success" variant="outlined">
+                    Назад
+                  </Button>
+                </Link>
+              </Grid>
+              <Grid item xs={3}>
+                <SearchComp searchFunc={this.searchFunc} />
+              </Grid>
+            </Grid>
+
             <TableContainer>
               <Table sx={{ minWidth: 850 }} aria-label="caption table">
                 <TableHead sx={{ fontSize: "34px" }}>
                   <TableRow>
-                    <TableCell sx={{ fontSize: "20px" }} align="left">
-                      Номер по порядку
-                    </TableCell>
-                    
-                    <TableCell sx={{ fontSize: "20px" }} align="right">
-                      Слово на Аглийском
-                    </TableCell>
-                    <TableCell sx={{ fontSize: "20px" }} align="right">
-                      Слово на русском
-                    </TableCell>
-                    <TableCell sx={{ fontSize: "20px" }} align="left">
-                      Последний результат игры
-                    </TableCell>
-                    <TableCell sx={{ fontSize: "20px" }} align="left">
-                      Статистика правильных ответов
-                    </TableCell>
-                    <TableCell sx={{ fontSize: "20px" }} align="right">
-                      Актуальность
-                    </TableCell>
-                    
+                    {this.state.tableHeadRowCells.map((item) => {
+                      return (
+                        <TableCell sx={{ fontSize: "20px" }} align="right">
+                          {item}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -122,19 +142,18 @@ class WordsList extends Component {
                       <TableCell sx={{ fontSize: "20px" }} align="left">
                         {index + 1}
                       </TableCell>
-                      
                       <TableCell sx={{ fontSize: "20px" }} align="right">
                         {word.eng}
                       </TableCell>
                       <TableCell sx={{ fontSize: "20px" }} align="right">
                         {word.rus}
                       </TableCell>
-                      <TableCell  sx={{ fontSize: "20px" }} align="left">
+                      <TableCell sx={{ fontSize: "20px" }} align="left">
                         {this.lastAnswer(word.lastAnswer)}
                       </TableCell>
                       <TableCell sx={{ fontSize: "20px" }} align="left">
-                      { this.getStatistics(word) }
-                    </TableCell>
+                        {this.getStatistics(word)}
+                      </TableCell>
                       <TableCell sx={{ fontSize: "20px" }} align="right">
                         <Button onClick={() => this.deleteWord1(index)}>
                           Удалить
