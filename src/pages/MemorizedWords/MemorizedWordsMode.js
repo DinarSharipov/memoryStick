@@ -41,7 +41,9 @@ class MemorizedWordsMode extends Component {
                         fontSize: "22px",
                         p: "0px 20px",
                         m: 1,
-                        backgroundColor: "rgba(255, 255, 255, 0)",
+                        backgroundColor: ` rgb(${100 + i * 40}, ${
+                          200 - i * 60
+                        }, 0)`,
                         border: "2px solid #fff",
                         borderRadius: 4,
                         color: "#fff",

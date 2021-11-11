@@ -46,6 +46,7 @@ export function fetchModeWords(id) {
         if (AllWords.length == id) {
           return;
         }
+        console.log(item);
 
         AllWords.push(Object.assign(response.data[item], { id: item }));
       });

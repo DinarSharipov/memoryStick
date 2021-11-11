@@ -36,8 +36,10 @@ class WordsList extends Component {
     const words = [...this.state.words];
     const wordsCopy = [...this.state.words];
     Object.keys(this.props.wordsList).forEach((item, index) => {
-      words.push(this.props.wordsList[item]);
-      wordsCopy.push(this.props.wordsList[item]);
+      if (item !== "AppInfo") {
+        words.push(this.props.wordsList[item]);
+        wordsCopy.push(this.props.wordsList[item]);
+      }
     });
     this.setState({
       words,
