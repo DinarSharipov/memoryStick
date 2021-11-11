@@ -1,10 +1,7 @@
-import classes from "./HeaderComp.module.css";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { IconButton, Button } from "@mui/material";
-import { HomeOutlined } from "@mui/icons-material";
 import { NavLink } from "react-router-dom";
 import React, { Component } from "react";
 import { connect } from "react-redux";

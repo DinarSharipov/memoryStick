@@ -6,5 +6,5 @@ import authReducers from "./auth";
 export default combineReducers({
   words: wordsReducer,
   applist: appListReducer,
-  authData: authReducers,
+  auth: authReducers,
 });

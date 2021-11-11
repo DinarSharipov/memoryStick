@@ -6,7 +6,6 @@ import {
   TableCell,
   TableBody,
   Button,
-  TextField,
   Alert,
   Grid,
 } from "@mui/material";
@@ -15,7 +14,6 @@ import { connect } from "react-redux";
 import { deleteWord } from "../../store/actions/words";
 import { fetchAllWordsLength } from "../../store/actions/words";
 import LoaderComp from "../../components/UI/Loader/LoaderComp";
-import { Box } from "@mui/system";
 import SearchComp from "../../components/SearchComp/SearchComp";
 import { Link } from "react-router-dom";
 
@@ -34,7 +32,6 @@ class WordsList extends Component {
   };
 
   async componentDidMount() {
-    console.log(this.props.wordsList);
     await this.props.fetchAllWordsLength();
     const words = [...this.state.words];
     const wordsCopy = [...this.state.words];
@@ -73,7 +70,7 @@ class WordsList extends Component {
   }
 
   lastAnswer(answer) {
-    if (answer == true) {
+    if (answer === true) {
       return (
         <Alert variant="string" sx={{ color: "green" }} severity="success">
           Ответ был правльным
@@ -91,7 +88,7 @@ class WordsList extends Component {
   }
 
   getStatistics(word) {
-    if (word.lastAnswer == undefined) {
+    if (word.lastAnswer === undefined) {
       return "-";
     }
     return (
@@ -104,7 +101,7 @@ class WordsList extends Component {
   render() {
     return (
       <div>
-        {this.state.wordsCopy.length == 0 ? (
+        {this.state.wordsCopy.length === 0 ? (
           <div>
             <LoaderComp />
           </div>
@@ -127,9 +124,13 @@ class WordsList extends Component {
               <Table sx={{ minWidth: 850 }} aria-label="caption table">
                 <TableHead sx={{ fontSize: "34px" }}>
                   <TableRow>
-                    {this.state.tableHeadRowCells.map((item) => {
+                    {this.state.tableHeadRowCells.map((item, i) => {
                       return (
-                        <TableCell sx={{ fontSize: "20px" }} align="right">
+                        <TableCell
+                          key={i}
+                          sx={{ fontSize: "20px" }}
+                          align="right"
+                        >
                           {item}
                         </TableCell>
                       );

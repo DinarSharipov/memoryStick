@@ -8,7 +8,6 @@ const LearnedWords = (props) => {
       color="info"
       sx={{
         borderRadius: 1,
-
         fontSize: 20,
       }}
       label={

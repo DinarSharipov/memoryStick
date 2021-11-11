@@ -1,8 +1,8 @@
 import { Button, ButtonGroup, TextField, Typography } from "@mui/material";
-import { border, Box, display } from "@mui/system";
-import React, { Component, useState } from "react";
+import { Box } from "@mui/system";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import { authLogin, authRegistration } from "../../store/actions/auth";
+import { auth } from "../../store/actions/auth";
 
 const modal = {
   display: "flex",
@@ -65,14 +65,14 @@ class Auth extends Component {
         <ButtonGroup>
           <Button
             onClick={() =>
-              this.props.login(this.state.login, this.state.password)
+              this.props.auth(this.state.login, this.state.password, true)
             }
           >
             Войти
           </Button>
           <Button
             onClick={() =>
-              this.props.registration(this.state.login, this.state.password)
+              this.props.auth(this.state.login, this.state.password, false)
             }
           >
             Зарегистрироваться
@@ -85,9 +85,8 @@ class Auth extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    registration: (login, password) =>
-      dispatch(authRegistration(login, password)),
-    login: (login, password) => dispatch(authLogin(login, password)),
+    auth: (login, password, isLogin) =>
+      dispatch(auth(login, password, isLogin)),
   };
 }
 

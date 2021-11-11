@@ -1,45 +1,57 @@
 import axios from "axios";
-import { AUTH_LOGIN, AUTH_REGISTRATION } from "./actionTypes";
+import { AUTH_SUCCESS, AUTH_LOGOUT } from "./actionTypes";
 
-export function authRegistration(login, password) {
+export function auth(login, password, isLogin) {
   return async (dispatch) => {
-    const data = {
+    const authData = {
       email: login,
       password: password,
       returnSecureToken: true,
     };
-    console.log(1);
-    try {
-      const response = await axios.post(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC2lEaiEOjRq4fPhDGuoiRM4FKdVwOMKFA",
-        data
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+
+    let url =
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC2lEaiEOjRq4fPhDGuoiRM4FKdVwOMKFA";
+    if (isLogin) {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC2lEaiEOjRq4fPhDGuoiRM4FKdVwOMKFA";
     }
 
-    return dispatch({ type: "AUTH_REGISTRATION", data });
+    const response = await axios.post(url, authData);
+    const data = response.data;
+
+    const expirationDate = new Date(
+      new Date().getTime() + data.expiresIn * 1000
+    );
+    console.log("Регистрация ", response.data);
+    localStorage.setItem("token", data.idToken);
+    localStorage.setItem("userId", data.localId);
+    localStorage.setItem("expirationDate", expirationDate);
+
+    dispatch(authSuccess(data.idToken));
+    dispatch(autoLogout(data.expiresIn));
   };
 }
-export function authLogin(login, password) {
-  return async (dispatch) => {
-    const data = {
-      email: login,
-      password: password,
-      returnSecureToken: true,
-    };
-    console.log(1);
-    try {
-      const response = await axios.post(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC2lEaiEOjRq4fPhDGuoiRM4FKdVwOMKFA",
-        data
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
 
-    return dispatch({ type: "AUTH_LOGIN", data });
+export function authSuccess(token) {
+  return {
+    type: AUTH_SUCCESS,
+    token,
+  };
+}
+
+export function autoLogout(time) {
+  return (dispatch) => {
+    setTimeout(() => {
+      dispatch(logout());
+    }, time * 1000);
+  };
+}
+
+export function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("expirationDate");
+  return {
+    type: AUTH_LOGOUT,
   };
 }

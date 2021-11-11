@@ -2,29 +2,44 @@ import "./App.css";
 import HeaderComp from "./components/Header/HeaderComp";
 import MainCont from "./hoc/MainCont/MainCont";
 import { Route, Switch } from "react-router-dom";
-import MemorizedWordsMode from "./containers/MemorizedWords/MemorizedWordsMode";
+import MemorizedWordsMode from "./pages/MemorizedWords/MemorizedWordsMode";
 import MemorizedGame from "./components/MemorizedGame/MemorizedGame";
-import WordsList from "./containers/WordsList/WordsList";
+import WordsList from "./pages/WordsList/WordsList";
 import GameResults from "./components/MemorizedGame/GameResults/GameResults";
-import AppList from "./containers/AppList/AppList";
-import Auth from "./containers/Auth/Auth";
+import AppList from "./pages/AppList/AppList";
+import Auth from "./pages/Auth/Auth";
+import { connect } from "react-redux";
 
-function App() {
+function App(props) {
+  let routes = (
+    <Switch>
+      <Route path="/" exact component={Auth} />
+    </Switch>
+  );
+
+  if (props.isAuth) {
+    routes = (
+      <Switch>
+        <Route path="/" exact component={AppList} />
+        <Route path="/wordslist" exact component={WordsList} />
+        <Route path="/gameresults" exact component={GameResults} />
+        <Route path="/:id" exact component={MemorizedWordsMode} />
+        <Route path="/mode/:id" exact component={MemorizedGame} />
+      </Switch>
+    );
+  }
   return (
     <div className="App">
       <HeaderComp />
-      <MainCont>
-        <Switch>
-          <Route path="/" exact component={Auth} />
-          {/* <Route path="/" exact component={AppList} /> */}
-          <Route path="/wordslist" exact component={WordsList} />
-          <Route path="/gameresults" exact component={GameResults} />
-          <Route path="/:id" exact component={MemorizedWordsMode} />
-          <Route path="/mode/:id" exact component={MemorizedGame} />
-        </Switch>
-      </MainCont>
+      <MainCont>{routes}</MainCont>
     </div>
   );
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    isAuth: !!state.auth.token,
+  };
+}
+
+export default connect(mapStateToProps)(App);

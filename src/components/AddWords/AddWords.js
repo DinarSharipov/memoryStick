@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { Add } from "@mui/icons-material";
-import { Container, Button, Typography, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { connect } from "react-redux";
 import { addNewWord } from "../../store/actions/words";
 import { fetchAllWordsLength } from "../../store/actions/words";
-import { store } from "../..";
 
 class AddWords extends Component {
   state = {

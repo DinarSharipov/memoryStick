@@ -5,7 +5,6 @@ import {
   FETCH_START,
   ALL_WORDS_LENGTH,
   DELETE_WORD,
-  PUSH_RESULTS,
 } from "./actionTypes";
 
 export function fetchAllWordsLength() {
@@ -33,23 +32,23 @@ export function fetchModeWords(id) {
       const response = await axios.get("/allwords.json");
       const length = Object.keys(response.data).length;
 
-      for (let [key, value] of Object.entries(response.data)) {
-        if (AllWords.length == id) {
-          break;
-        } else if (key == "AppInfo") {
-          continue;
-        } else {
-          AllWords.push(Object.assign(value, { id: key }));
-        }
-      }
-
-      // Object.keys(response.data).forEach((item, i) => {
-      //   if (AllWords.length == id) {
-      //     return;
+      // for (let [key, value] of Object.entries(response.data)) {
+      //   if (AllWords.length === id) {
+      //     break;
+      //   } else if (key === "AppInfo") {
+      //     continue;
+      //   } else {
+      //     AllWords.push(Object.assign(value, { id: key }));
       //   }
+      // }
 
-      //   AllWords.push(Object.assign(response.data[item], { id: item }));
-      // });
+      Object.keys(response.data).forEach((item, i) => {
+        if (AllWords.length == id) {
+          return;
+        }
+
+        AllWords.push(Object.assign(response.data[item], { id: item }));
+      });
       dispatch(fetchWordsSuccess(AllWords, length));
     } catch (e) {
       console.log(e);
@@ -77,8 +76,6 @@ export function deleteWord(id) {
       console.log(error);
     }
   };
-  console.log("Запущено удаление на сервере");
-  //
 }
 
 export function fetchWordsSuccess(AllWords, length) {

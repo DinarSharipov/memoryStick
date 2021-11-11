@@ -9,14 +9,14 @@ import { Grid } from "@mui/material";
 
 const AppItem = (app) => {
   return (
-    <Grid item xs={3}>
+    <Grid item xs="auto">
       <Card sx={{ maxWidth: 345 }}>
         <CardActionArea>
           <CardMedia
             component="img"
             height="140"
             image={app.app.src}
-            alt="green iguana"
+            alt={app.app.name}
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">

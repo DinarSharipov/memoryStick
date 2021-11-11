@@ -14,8 +14,8 @@ class AppList extends Component {
     return (
       <Grid container spacing={2} sx={{ mt: 2 }}>
         {this.props.AppList ? (
-          this.props.AppList.map((app) => {
-            return <AppItem app={app} />;
+          this.props.AppList.map((app, i) => {
+            return <AppItem key={i} app={app} />;
           })
         ) : (
           <h1 style={{ marginTop: "100px" }}>Загрузка...</h1>

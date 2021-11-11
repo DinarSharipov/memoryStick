@@ -1,27 +1,23 @@
-import { AUTH_LOGIN, AUTH_REGISTRATION } from "../actions/actionTypes";
+import { AUTH_SUCCESS, AUTH_LOGOUT } from "../actions/actionTypes";
 
 const initialState = {
-  login: "",
-  password: "",
-  returnSecureToken: true,
+  token: null,
 };
 
 export default function authReducers(state = initialState, action) {
   switch (action.type) {
-    case AUTH_REGISTRATION:
+    case AUTH_SUCCESS:
       return {
         ...state,
-        authData: action.data,
+        token: action.token,
       };
-    case AUTH_LOGIN:
+    case AUTH_LOGOUT:
       return {
         ...state,
-        authData: action.data,
+        token: null,
       };
 
     default:
-      return {
-        ...state,
-      };
+      return state;
   }
 }

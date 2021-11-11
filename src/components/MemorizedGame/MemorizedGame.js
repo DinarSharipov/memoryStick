@@ -10,9 +10,9 @@ import {
   TextField,
   Collapse,
 } from "@mui/material";
-import DoneIcon from "@mui/icons-material/Done";
+
 import LoaderComp from "../UI/Loader/LoaderComp";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class MemorizedGame extends Component {
   state = {
