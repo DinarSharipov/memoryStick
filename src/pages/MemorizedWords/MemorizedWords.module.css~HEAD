@@ -1,0 +1,15 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.textStyle{
+  background: "linear-gradient(180deg, rgb(32, 53, 122), rgb(41, 22, 9))";
+  border: "2px solid #fff";
+  color: "#fff";
+  border-radius: 4;
+  text-align: "center";
+  padding: "10px 20px";
+  margin: 2;
+}
