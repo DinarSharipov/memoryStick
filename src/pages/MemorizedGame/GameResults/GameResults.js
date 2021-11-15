@@ -58,7 +58,11 @@ const GameResults = (props) => {
       </TableContainer>
       <ButtonGroup sx={{ p: 2 }}>
         <Link to="/allwords">
-          <Button onClick={() => props.pushResults(props.location.propsSearch)}>
+          <Button
+            onClick={() => {
+              props.pushResults(props.location.propsSearch, props.userBaseId);
+            }}
+          >
             Сохранить результат
           </Button>
         </Link>
@@ -67,8 +71,17 @@ const GameResults = (props) => {
   );
 };
 
-function mapDispatchToProps(dispatch) {
-  return { pushResults: (results) => dispatch(pushResults(results)) };
+function mapStateToProps(state) {
+  return {
+    userBaseId: state.auth.userBaseId,
+  };
 }
 
-export default connect(null, mapDispatchToProps)(GameResults);
+function mapDispatchToProps(dispatch) {
+  return {
+    pushResults: (results, userBaseId) =>
+      dispatch(pushResults(results, userBaseId)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameResults);

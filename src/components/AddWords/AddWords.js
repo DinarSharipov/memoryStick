@@ -4,7 +4,6 @@ import { Button, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { connect } from "react-redux";
 import { addNewWord } from "../../store/actions/words";
-import { fetchAllWordsLength } from "../../store/actions/words";
 
 class AddWords extends Component {
   state = {
@@ -18,8 +17,6 @@ class AddWords extends Component {
     wordsListLength: 0,
   };
 
-  componentDidMount() {}
-
   clearInputs() {
     this.setState({
       engUserWord: "",
@@ -30,7 +27,7 @@ class AddWords extends Component {
         bg: "contained",
       },
     });
-    this.props.fetchAllWordsLength();
+
     setTimeout(() => {
       this.setState({
         successBtn: {
@@ -85,14 +82,19 @@ class AddWords extends Component {
           />
           <Button
             onClick={() => {
-              this.props.addNewWord({
-                eng: this.state.engUserWord,
-                rus: this.state.rusUserWord,
-                statistics: {
-                  true: 0,
-                  false: 0,
+              // console.log(this.props.userBaseId);
+              this.props.addNewWord(
+                {
+                  eng: this.state.engUserWord,
+                  rus: this.state.rusUserWord,
+                  lastAnswer: "-",
+                  statistics: {
+                    true: 0,
+                    false: 0,
+                  },
                 },
-              });
+                this.props.userBaseId
+              );
               this.clearInputs();
             }}
             sx={{ p: 0.9 }}
@@ -108,11 +110,16 @@ class AddWords extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapStateToProps(state) {
   return {
-    addNewWord: (newWord) => dispatch(addNewWord(newWord)),
-    fetchAllWordsLength: () => dispatch(fetchAllWordsLength()),
+    userBaseId: state.auth.userBaseId,
   };
 }
 
-export default connect(null, mapDispatchToProps)(AddWords);
+function mapDispatchToProps(dispatch) {
+  return {
+    addNewWord: (newWord, userId) => dispatch(addNewWord(newWord, userId)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddWords);

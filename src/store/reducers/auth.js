@@ -1,7 +1,13 @@
-import { AUTH_SUCCESS, AUTH_LOGOUT } from "../actions/actionTypes";
+import {
+  AUTH_SUCCESS,
+  AUTH_LOGOUT,
+  ADD_USER_BASE_ID,
+} from "../actions/actionTypes";
 
 const initialState = {
   token: null,
+  userId: null,
+  userBaseId: null,
 };
 
 export default function authReducers(state = initialState, action) {
@@ -10,11 +16,18 @@ export default function authReducers(state = initialState, action) {
       return {
         ...state,
         token: action.token,
+        userId: action.userId,
       };
     case AUTH_LOGOUT:
       return {
         ...state,
         token: null,
+        userId: null,
+      };
+    case ADD_USER_BASE_ID:
+      return {
+        ...state,
+        userBaseId: action.userBaseId,
       };
 
     default:

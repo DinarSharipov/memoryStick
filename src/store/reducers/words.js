@@ -1,9 +1,8 @@
 import {
-  ADD_NEW_WORD,
   FETCH_ALL_WORDS,
   FETCH_START,
-  ALL_WORDS_LENGTH,
   DELETE_WORD,
+  SET_USER_BASE,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -15,39 +14,28 @@ const initialState = {
     { name: "30 слов", modeLength: 30 },
     { name: "50 слов", modeLength: 50 },
   ],
-  AllWords: [],
-  length: 0,
+
   loading: false,
-  wordsList: "",
+  userBase: null,
 };
 
 export default function wordsReducer(state = initialState, action) {
   switch (action.type) {
+    case SET_USER_BASE:
+      return {
+        ...state,
+        userBase: action.userBase,
+      };
     case FETCH_ALL_WORDS:
       return {
         ...state,
-        AllWords: action.AllWords,
+        userWords: action.userWords,
         loading: false,
       };
     case FETCH_START:
       return {
         ...state,
         loading: true,
-      };
-    case ADD_NEW_WORD:
-      return {
-        ...state,
-      };
-    case ALL_WORDS_LENGTH:
-      return {
-        ...state,
-        length: action.length,
-        wordsList: action.wordsList,
-      };
-
-    case DELETE_WORD:
-      return {
-        ...state,
       };
 
     default:

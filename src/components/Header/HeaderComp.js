@@ -5,16 +5,13 @@ import Box from "@mui/material/Box";
 import { NavLink, Redirect } from "react-router-dom";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchAllWordsLength } from "../../store/actions/words";
+
 import { ThemeProvider } from "@mui/system";
 import { theme } from "../UI/UIColors/UiColors";
 import { Button } from "@mui/material";
 import { logout } from "../../store/actions/auth";
 
 class HeaderComp extends Component {
-  componentDidMount() {
-    this.props.fetchAllWordsLength();
-  }
   render() {
     return (
       <div>
@@ -50,7 +47,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     logout: () => dispatch(logout()),
-    fetchAllWordsLength: () => dispatch(fetchAllWordsLength()),
   };
 }
 

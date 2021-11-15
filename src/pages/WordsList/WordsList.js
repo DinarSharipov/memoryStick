@@ -12,7 +12,7 @@ import {
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { deleteWord } from "../../store/actions/words";
-import { fetchAllWordsLength } from "../../store/actions/words";
+import { fetchLearnEnglichApp } from "../../store/actions/words";
 import LoaderComp from "../../components/UI/Loader/LoaderComp";
 import SearchComp from "../../components/SearchComp/SearchComp";
 import { Link } from "react-router-dom";
@@ -32,14 +32,11 @@ class WordsList extends Component {
   };
 
   async componentDidMount() {
-    await this.props.fetchAllWordsLength();
     const words = [...this.state.words];
     const wordsCopy = [...this.state.words];
-    Object.keys(this.props.wordsList).forEach((item, index) => {
-      if (item !== "AppInfo") {
-        words.push(this.props.wordsList[item]);
-        wordsCopy.push(this.props.wordsList[item]);
-      }
+    this.props.userWords.forEach((word, index) => {
+      words.push(word);
+      wordsCopy.push(word);
     });
     this.setState({
       words,
@@ -78,7 +75,7 @@ class WordsList extends Component {
           Ответ был правльным
         </Alert>
       );
-    } else if (answer === undefined) {
+    } else if (answer === "-") {
       return "Не было игр";
     } else {
       return (
@@ -90,7 +87,7 @@ class WordsList extends Component {
   }
 
   getStatistics(word) {
-    if (word.lastAnswer === undefined) {
+    if (word.lastAnswer === "-") {
       return "-";
     }
     return (
@@ -103,72 +100,66 @@ class WordsList extends Component {
   render() {
     return (
       <div>
-        {this.state.wordsCopy.length === 0 ? (
-          <div>
-            <LoaderComp />
-          </div>
-        ) : (
-          <>
-            <Grid container alignItems="center" justifyContent="space-between">
-              <Grid item xs={2}>
-                <Link to="/allwords">
-                  <Button size="large" color="success" variant="outlined">
-                    Назад
-                  </Button>
-                </Link>
-              </Grid>
-              <Grid item xs={3}>
-                <SearchComp searchFunc={this.searchFunc} />
-              </Grid>
+        <>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item xs={2}>
+              <Link to="/allwords">
+                <Button size="large" color="success" variant="outlined">
+                  Назад
+                </Button>
+              </Link>
             </Grid>
+            <Grid item xs={3}>
+              <SearchComp searchFunc={this.searchFunc} />
+            </Grid>
+          </Grid>
 
-            <TableContainer>
-              <Table sx={{ minWidth: 850 }} aria-label="caption table">
-                <TableHead sx={{ fontSize: "34px" }}>
-                  <TableRow>
-                    {this.state.tableHeadRowCells.map((item, i) => {
-                      return (
-                        <TableCell
-                          key={i}
-                          sx={{ fontSize: "20px" }}
-                          align="right"
-                        >
-                          {item}
-                        </TableCell>
-                      );
-                    })}
+          <TableContainer>
+            <Table sx={{ minWidth: 850 }} aria-label="caption table">
+              <TableHead sx={{ fontSize: "34px" }}>
+                <TableRow>
+                  {this.state.tableHeadRowCells.map((item, i) => {
+                    return (
+                      <TableCell
+                        key={i}
+                        sx={{ fontSize: "20px" }}
+                        align="right"
+                      >
+                        {item}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {this.state.words.map((word, index) => (
+                  <TableRow key={index}>
+                    <TableCell sx={{ fontSize: "20px" }} align="left">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell sx={{ fontSize: "20px" }} align="right">
+                      {word.eng}
+                    </TableCell>
+                    <TableCell sx={{ fontSize: "20px" }} align="right">
+                      {word.rus}
+                    </TableCell>
+                    <TableCell sx={{ fontSize: "20px" }} align="left">
+                      {this.lastAnswer(word.lastAnswer)}
+                    </TableCell>
+                    <TableCell sx={{ fontSize: "20px" }} align="left">
+                      {this.getStatistics(word)}
+                    </TableCell>
+                    <TableCell sx={{ fontSize: "20px" }} align="right">
+                      <Button onClick={() => this.deleteWord1(index)}>
+                        Удалить
+                      </Button>
+                    </TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {this.state.words.map((word, index) => (
-                    <TableRow key={index}>
-                      <TableCell sx={{ fontSize: "20px" }} align="left">
-                        {index + 1}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: "20px" }} align="right">
-                        {word.eng}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: "20px" }} align="right">
-                        {word.rus}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: "20px" }} align="left">
-                        {this.lastAnswer(word.lastAnswer)}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: "20px" }} align="left">
-                        {this.getStatistics(word)}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: "20px" }} align="right">
-                        <Button onClick={() => this.deleteWord1(index)}>
-                          Удалить
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </>
-        )}
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
       </div>
     );
   }
@@ -177,13 +168,14 @@ class WordsList extends Component {
 function mapStateToProps(state) {
   return {
     wordsList: state.words.wordsList,
+    userWords: Object.values(state.words.userBase.words),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     deleteWord: (id) => dispatch(deleteWord(id)),
-    fetchAllWordsLength: () => dispatch(fetchAllWordsLength()),
+    fetchLearnEnglichApp: () => dispatch(fetchLearnEnglichApp()),
   };
 }
 

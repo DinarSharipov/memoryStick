@@ -1,9 +1,10 @@
 export const FETCH_ALL_WORDS = "FETCH_ALL_WORDS";
 export const FETCH_START = "FETCH_START";
 export const ADD_NEW_WORD = "ADD_NEW_WORD";
-export const ALL_WORDS_LENGTH = "ALL_WORDS_LENGTH";
 export const DELETE_WORD = "DELETE_WORD";
 export const PUSH_RESULTS = "PUSH_RESULTS";
 export const FETCH_APPLIST = "FETCH_APPLIST";
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
 export const AUTH_LOGOUT = "AUTH_LOGOUT";
+export const SET_USER_BASE = "SET_USER_BASE";
+export const ADD_USER_BASE_ID = "ADD_USER_BASE_ID";

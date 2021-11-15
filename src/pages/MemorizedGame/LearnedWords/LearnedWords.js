@@ -21,7 +21,8 @@ const LearnedWords = (props) => {
 
 function mapStateToProps(state) {
   return {
-    length: state.words.length,
+    length: 1,
+    // length: Object.keys(state.words.userBase.words).length,
   };
 }
 

@@ -4,10 +4,10 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import AddWords from "../../components/AddWords/AddWords";
 import classes from "./MemorizedWords.module.css";
-import { fetchAllWordsLength } from "../../store/actions/words";
+import { fetchLearnEnglichApp } from "../../store/actions/words";
 import ViewListOutlinedIcon from "@mui/icons-material/ViewListOutlined";
 import { Link } from "react-router-dom";
-import LearnedWords from "../../components/MemorizedGame/LearnedWords/LearnedWords";
+import LearnedWords from "../MemorizedGame/LearnedWords/LearnedWords";
 
 class MemorizedWordsMode extends Component {
   state = {
@@ -22,7 +22,7 @@ class MemorizedWordsMode extends Component {
     },
   };
   componentDidMount() {
-    this.props.fetchAllWordsLength();
+    this.props.fetchLearnEnglichApp(this.props.userId);
   }
   render() {
     return (
@@ -70,7 +70,7 @@ class MemorizedWordsMode extends Component {
           <Typography variant="h6" color="initial" sx={this.state.textStyle}>
             Добавьте новое слово в ваш словарный запас!
           </Typography>
-          <AddWords AllWords={this.props.AllWords} />
+          <AddWords AllWords={this.props.userWords} />
         </Box>
         <Box
           sx={{
@@ -87,6 +87,7 @@ class MemorizedWordsMode extends Component {
               <ViewListOutlinedIcon />
             </Button>
           </Link>
+          <Button onClick={() => console.log(this.props)}>Тест</Button>
           <LearnedWords />
         </Box>
       </div>
@@ -96,13 +97,15 @@ class MemorizedWordsMode extends Component {
 
 function mapStateToProps(state) {
   return {
-    AllWords: state.words.AllWords,
+    userId: state.auth.userId,
+    userWords: state.words.userWords,
     modeList: state.words.modeList,
+    userBaseId: state.auth.userBaseId,
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    fetchAllWordsLength: () => dispatch(fetchAllWordsLength()),
+    fetchLearnEnglichApp: (userId) => dispatch(fetchLearnEnglichApp(userId)),
   };
 }
 

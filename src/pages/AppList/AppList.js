@@ -7,7 +7,6 @@ import { Grid } from "@mui/material";
 class AppList extends Component {
   componentDidMount() {
     this.props.fetchAppList();
-    console.log(this.props.AppList);
   }
 
   render() {

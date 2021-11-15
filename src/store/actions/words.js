@@ -3,64 +3,42 @@ import {
   ADD_NEW_WORD,
   FETCH_ALL_WORDS,
   FETCH_START,
-  ALL_WORDS_LENGTH,
   DELETE_WORD,
+  SET_USER_BASE,
 } from "./actionTypes";
 
-export function fetchAllWordsLength() {
+//ЗАПРОС СЛОВАРНОГО ЗАПАСА КОНКРЕТНОГО ПОЛЬЗОВАТЕЛЯ
+export function fetchLearnEnglichApp(userId) {
   return async (dispatch) => {
     try {
-      const response = await axios.get("/allwords.json");
-      const wordsList = response.data;
-      const length = Object.keys(response.data).length;
-      dispatch({
-        type: ALL_WORDS_LENGTH,
-        length: length,
-        wordsList: wordsList,
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-}
+      const response = await axios.get("/learnEnglishApp.json");
+      const base = response.data;
 
-export function fetchModeWords(id) {
-  return async (dispatch) => {
-    dispatch(fetchStart());
-    try {
-      const AllWords = [];
-      const response = await axios.get("/allwords.json");
-      const length = Object.keys(response.data).length;
-
-      // for (let [key, value] of Object.entries(response.data)) {
-      //   if (AllWords.length === id) {
-      //     break;
-      //   } else if (key === "AppInfo") {
-      //     continue;
-      //   } else {
-      //     AllWords.push(Object.assign(value, { id: key }));
-      //   }
-      // }
-
-      Object.keys(response.data).forEach((item, i) => {
-        if (AllWords.length == id) {
-          return;
+      Object.keys(base.users).forEach((item) => {
+        let user = base.users[item];
+        if (user.userId === userId) {
+          console.log(user);
+          dispatch({
+            type: SET_USER_BASE,
+            userBase: user,
+          });
         }
-        console.log(item);
-
-        AllWords.push(Object.assign(response.data[item], { id: item }));
       });
-      dispatch(fetchWordsSuccess(AllWords, length));
     } catch (e) {
       console.log(e);
     }
   };
 }
 
-export function addNewWord(newWord) {
+//ДОБАВЛЕНИЕ НОВОГО СЛОВА В СЛОВАРНЫЙ ЗАПАС ПОЛЬЗОВАТЕЛЯ
+export function addNewWord(newWord, userBaseId) {
   return async () => {
     try {
-      const response = await axios.post("/allwords.json", newWord);
+      console.log(userBaseId);
+      const response = await axios.post(
+        `/learnEnglishApp/users/${userBaseId}/words/.json`,
+        newWord
+      );
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -68,16 +46,42 @@ export function addNewWord(newWord) {
   };
 }
 
+//УДАЛЕНИЕ СЛОВА ИЗ СЛОВАРНОГО ЗАПАСА ПОЛЬЗОВАТЕЛЯ
 export function deleteWord(id) {
-  return async (dispatch) => {
+  return async () => {
     try {
       await axios.delete(`/allwords/${id}.json`);
-      dispatch({ type: DELETE_WORD });
     } catch (error) {
       console.log(error);
     }
   };
 }
+
+//ОТПРАВКА РЕЗУЛЬТАТОВ ИГРЫ В БАЗУ ДАННЫХ
+export function pushResults(results, userBaseId) {
+  console.log(results);
+  return async () => {
+    try {
+      await results.forEach((word) => {
+        let newword = {
+          eng: word.engWord,
+          rus: word.rusWord,
+          lastAnswer: word.trueFalse,
+          statistics: word.statistics,
+        };
+        const response = axios.put(
+          `/learnEnglishApp/users/${userBaseId}/words/${word.id}.json`,
+          newword
+        );
+        console.log(word);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+//Диспатч ретернеры===================================
 
 export function fetchWordsSuccess(AllWords, length) {
   return {
@@ -95,25 +99,5 @@ export function fetchStart() {
 export function pushWord() {
   return {
     type: ADD_NEW_WORD,
-  };
-}
-
-export function pushResults(results) {
-  console.log(results);
-  return async () => {
-    try {
-      await results.forEach((word) => {
-        let newword = {
-          eng: word.engWord,
-          rus: word.rusWord,
-          lastAnswer: word.trueFalse,
-          statistics: word.statistics,
-        };
-        const response = axios.put(`/allwords/${word.id}/.json`, newword);
-        console.log(response);
-      });
-    } catch (error) {
-      console.log(error);
-    }
   };
 }
