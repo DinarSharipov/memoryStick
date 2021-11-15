@@ -9,6 +9,8 @@ import GameResults from "./pages/MemorizedGame/GameResults/GameResults";
 import AppList from "./pages/AppList/AppList";
 import Auth from "./pages/Auth/Auth";
 import { connect } from "react-redux";
+import { useEffect } from "react";
+import { autoLogin } from "./store/actions/auth";
 
 function App(props) {
   let routes = (
@@ -16,6 +18,10 @@ function App(props) {
       <Route path="/" exact component={Auth} />
     </Switch>
   );
+
+  useEffect(() => {
+    props.autoLogin();
+  }, []);
 
   if (props.isAuth) {
     routes = (
@@ -42,4 +48,10 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(App);
+function mapDispatchToProps(dispatch) {
+  return {
+    autoLogin: () => dispatch(autoLogin()),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

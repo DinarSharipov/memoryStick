@@ -35,7 +35,12 @@ class MemorizedWordsMode extends Component {
             {this.props.modeList.map((item, i) => {
               return (
                 <Grid item xs="auto" key={i}>
-                  <NavLink to={"/mode/" + item.modeLength}>
+                  <NavLink
+                    to={{
+                      pathname: "/mode/" + item.modeLength,
+                      propsSearch: item.modeLength,
+                    }}
+                  >
                     <Button
                       sx={{
                         fontSize: "22px",

@@ -14,8 +14,47 @@ class AddWords extends Component {
       color: "primary",
       bg: "outlined",
     },
-    wordsListLength: 0,
   };
+
+  addWord() {
+    console.log(Boolean(this.state.rusUserWord.match(/[а-яА-Я]/i)));
+    if (
+      this.state.engUserWord === "" ||
+      this.state.rusUserWord === "" ||
+      !Boolean(this.state.engUserWord.match(/[a-zA-Z]/i)) ||
+      !Boolean(this.state.rusUserWord.match(/[а-яА-Я]/i))
+    ) {
+      this.setState({
+        successBtn: {
+          name: "Заполните все поля корректно",
+          color: "error",
+          bg: "outlined",
+        },
+      });
+      setTimeout(() => {
+        this.setState({
+          successBtn: {
+            name: "Добавить новое слово",
+            color: "primary",
+            bg: "outlined",
+          },
+        });
+      }, 2000);
+      return;
+    }
+    let word = {
+      eng: this.state.engUserWord,
+      rus: this.state.rusUserWord,
+      lastAnswer: "-",
+      statistics: {
+        true: 0,
+        false: 0,
+      },
+    };
+    let userId = this.props.userBaseId;
+    this.props.addNewWord(word, userId);
+    this.clearInputs();
+  }
 
   clearInputs() {
     this.setState({
@@ -81,22 +120,7 @@ class AddWords extends Component {
             }}
           />
           <Button
-            onClick={() => {
-              // console.log(this.props.userBaseId);
-              this.props.addNewWord(
-                {
-                  eng: this.state.engUserWord,
-                  rus: this.state.rusUserWord,
-                  lastAnswer: "-",
-                  statistics: {
-                    true: 0,
-                    false: 0,
-                  },
-                },
-                this.props.userBaseId
-              );
-              this.clearInputs();
-            }}
+            onClick={() => this.addWord()}
             sx={{ p: 0.9 }}
             variant={this.state.successBtn.bg}
             color={this.state.successBtn.color}

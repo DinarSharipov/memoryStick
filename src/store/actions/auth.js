@@ -30,28 +30,32 @@ export function auth(login, password, isLogin) {
 
     dispatch(authSuccess(data.idToken, data.localId));
     dispatch(autoLogout(data.expiresIn));
-    console.log(isLogin);
+
     if (!isLogin) {
-      console.log("Запускаем диспатч с id пользователя", data.localId);
       dispatch(newUserData(data.localId));
     } else {
-      console.log(
-        "Запрашиваем id firebase на данного пользователя ",
-        data.localId
-      );
-      await axios
-        .get(
-          "https://learn-english-57715-default-rtdb.europe-west1.firebasedatabase.app/learnEnglishApp/users.json"
-        )
-        .then((res) =>
-          Object.keys(res.data).forEach((item, index) => {
-            if (res.data[item].userId == data.localId) {
-              let userBaseId = Object.keys(res.data)[index];
-              // console.log(Object.keys(res.data)[index], data.localId);
-              dispatch({ type: ADD_USER_BASE_ID, userBaseId });
-            }
-          })
+      getFireBaseId(data.localId);
+    }
+  };
+}
+
+export function autoLogin() {
+  return (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      dispatch(logout());
+    } else {
+      const expirationDate = new Date(localStorage.getItem("expirationDate"));
+      const localId = localStorage.getItem("userId");
+      if (expirationDate <= new Date()) {
+        dispatch(logout());
+      } else {
+        dispatch(authSuccess(token, localId));
+        dispatch(
+          autoLogout((expirationDate.getTime() - new Date().getTime()) / 1000)
         );
+        dispatch(getFireBaseId(localId));
+      }
     }
   };
 }
@@ -110,7 +114,31 @@ export function newUserData(idToken) {
     } catch (error) {
       console.log(error);
     }
-    console.log("Ответ: ", userBaseId);
+    return dispatch({ type: ADD_USER_BASE_ID, userBaseId });
+  };
+}
+
+export function getFireBaseId(localId) {
+  console.log(localId);
+  return async (dispatch) => {
+    let userBaseId = "";
+    console.log(localId);
+    try {
+      await axios
+        .get(
+          "https://learn-english-57715-default-rtdb.europe-west1.firebasedatabase.app/learnEnglishApp/users.json"
+        )
+        .then((res) =>
+          Object.keys(res.data).forEach((item, index) => {
+            console.log(res.data[item].userId, localId);
+            if (res.data[item].userId == localId) {
+              userBaseId = Object.keys(res.data)[index];
+            }
+          })
+        );
+    } catch (error) {
+      console.log(error);
+    }
     return dispatch({ type: ADD_USER_BASE_ID, userBaseId });
   };
 }

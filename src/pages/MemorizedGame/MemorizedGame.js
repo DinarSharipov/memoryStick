@@ -37,6 +37,9 @@ class MemorizedGame extends Component {
   renderGame() {
     let wordsList = [];
     for (let [wordId, word] of Object.entries(this.props.userWords)) {
+      if (this.props.location.propsSearch === wordsList.length) {
+        return wordsList;
+      }
       wordsList.push(
         <GameInputComp
           key={wordId}
@@ -54,6 +57,11 @@ class MemorizedGame extends Component {
     return (
       <div onClick={() => console.log(this.props)}>
         <div>
+          <Link to="/learnEnglishApp">
+            <Button color="success" variant="outlined">
+              Назад
+            </Button>
+          </Link>
           {this.renderGame()}
 
           {/* Кнопка готов вкл/выкл */}

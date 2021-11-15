@@ -17,6 +17,7 @@ const initialState = {
 
   loading: false,
   userBase: null,
+  userWords: null,
 };
 
 export default function wordsReducer(state = initialState, action) {
