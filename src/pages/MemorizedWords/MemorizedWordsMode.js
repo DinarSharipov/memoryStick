@@ -88,7 +88,7 @@ class MemorizedWordsMode extends Component {
         >
           <Link to="/wordslist" style={{ color: "white" }}>
             <ThemeProvider theme={theme}>
-              <Button variant="outlined" color="BgGradient12">
+              <Button variant="outlined" color="BgGradient12" sx={{ mb: 6 }}>
                 Показать мой словарный запас
                 <ViewListOutlinedIcon />
               </Button>

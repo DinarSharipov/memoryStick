@@ -8,9 +8,9 @@ const LearnedWords = (props) => {
       color="info"
       sx={{
         borderRadius: 1,
-        fontSize: 20,
+        fontSize: 18,
       }}
-      label={"Количество слов в словарном запасе: " + props.userWordsLength}
+      label={"Количество слов: " + props.userWordsLength}
     />
   );
 };

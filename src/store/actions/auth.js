@@ -1,6 +1,11 @@
 import axios from "axios";
 import axiosUrl from "../../axios/axios";
-import { AUTH_SUCCESS, AUTH_LOGOUT, ADD_USER_BASE_ID } from "./actionTypes";
+import {
+  AUTH_SUCCESS,
+  AUTH_LOGOUT,
+  ADD_USER_BASE_ID,
+  ERROR_AUTH,
+} from "./actionTypes";
 
 export function auth(login, password, isLogin) {
   return async (dispatch) => {
@@ -16,10 +21,15 @@ export function auth(login, password, isLogin) {
       url =
         "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC2lEaiEOjRq4fPhDGuoiRM4FKdVwOMKFA";
     }
+    let response = null;
+    try {
+      response = await axios.post(url, authData);
+    } catch (error) {
+      console.log(error);
+      return dispatch({ type: ERROR_AUTH });
+    }
 
-    const response = await axios.post(url, authData);
     const data = response.data;
-
     const expirationDate = new Date(
       new Date().getTime() + data.expiresIn * 1000
     );
@@ -81,6 +91,7 @@ export function logout() {
   localStorage.removeItem("userId");
   localStorage.removeItem("expirationDate");
   localStorage.removeItem("localId");
+
   return {
     type: AUTH_LOGOUT,
   };

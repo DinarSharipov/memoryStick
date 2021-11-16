@@ -8,3 +8,4 @@ export const AUTH_SUCCESS = "AUTH_SUCCESS";
 export const AUTH_LOGOUT = "AUTH_LOGOUT";
 export const SET_USER_BASE = "SET_USER_BASE";
 export const ADD_USER_BASE_ID = "ADD_USER_BASE_ID";
+export const ERROR_AUTH = "ERROR_AUTH";

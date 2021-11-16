@@ -2,12 +2,14 @@ import {
   AUTH_SUCCESS,
   AUTH_LOGOUT,
   ADD_USER_BASE_ID,
+  ERROR_AUTH,
 } from "../actions/actionTypes";
 
 const initialState = {
   token: null,
   userId: null,
   userBaseId: null,
+  errorAuth: false,
 };
 
 export default function authReducers(state = initialState, action) {
@@ -24,11 +26,17 @@ export default function authReducers(state = initialState, action) {
         token: null,
         userId: null,
         userBaseId: null,
+        errorAuth: false,
       };
     case ADD_USER_BASE_ID:
       return {
         ...state,
         userBaseId: action.userBaseId,
+      };
+    case ERROR_AUTH:
+      return {
+        ...state,
+        errorAuth: true,
       };
 
     default:

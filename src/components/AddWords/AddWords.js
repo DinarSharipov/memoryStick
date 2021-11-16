@@ -73,7 +73,7 @@ class AddWords extends Component {
       this.setState({
         successBtn: {
           name: "Добавить новое слово",
-          color: "primary",
+          color: "BgGradient12",
           bg: "outlined",
         },
       });
@@ -88,11 +88,10 @@ class AddWords extends Component {
             flexWrap: "wrap",
             alignItems: "center",
             justifyContent: "center",
-            ml: 2,
           }}
         >
           <TextField
-            sx={{ flexGrow: 1, mr: 1 }}
+            sx={{ flexGrow: 1, m: 1 }}
             color="BgGradient12"
             size="small"
             variant="outlined"
@@ -107,7 +106,7 @@ class AddWords extends Component {
             }}
           />
           <TextField
-            sx={{ flexGrow: 1, mr: 1 }}
+            sx={{ flexGrow: 1, m: 1, mb: 2 }}
             color="BgGradient12"
             size="small"
             variant="outlined"

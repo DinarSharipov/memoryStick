@@ -110,28 +110,34 @@ class WordsList extends Component {
   render() {
     return (
       <div>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item xs={2}>
+        <Grid
+          container
+          alignItems="center"
+          spacing="10"
+          justifyContent="space-around"
+        >
+          <Grid item xs="auto">
             <Link to="/allwords">
               <Button size="large" color="success" variant="outlined">
                 Назад
               </Button>
             </Link>
           </Grid>
-          <Grid item xs={4}>
-            {this.props.userWords ? <LearnedWords /> : null}
-          </Grid>
-          <Grid item xs={3}>
+
+          <Grid item xs="auto">
             <SearchComp searchFunc={this.searchFunc} />
+          </Grid>
+          <Grid item xs="auto">
+            {this.props.userWords ? <LearnedWords /> : null}
           </Grid>
         </Grid>
         <TableContainer>
           <Table sx={{ minWidth: 850 }} aria-label="caption table">
-            <TableHead sx={{ fontSize: "34px" }}>
+            <TableHead>
               <TableRow>
                 {this.state.tableHeadRowCells.map((item, i) => {
                   return (
-                    <TableCell key={i} sx={{ fontSize: "20px" }} align="right">
+                    <TableCell key={i} sx={{ fontSize: "16px" }} align="left">
                       {item}
                     </TableCell>
                   );
@@ -142,22 +148,16 @@ class WordsList extends Component {
               {this.state.userWords != {}
                 ? this.state.words.map((word, index) => (
                     <TableRow key={index}>
-                      <TableCell sx={{ fontSize: "20px" }} align="left">
-                        {index + 1}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: "20px" }} align="right">
-                        {word[1].eng}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: "20px" }} align="right">
-                        {word[1].rus}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: "20px" }} align="left">
+                      <TableCell align="left">{index + 1}</TableCell>
+                      <TableCell align="right">{word[1].eng}</TableCell>
+                      <TableCell align="right">{word[1].rus}</TableCell>
+                      <TableCell align="center">
                         {this.lastAnswer(word[1].lastAnswer)}
                       </TableCell>
-                      <TableCell sx={{ fontSize: "20px" }} align="left">
+                      <TableCell align="center">
                         {this.getStatistics(word[1])}
                       </TableCell>
-                      <TableCell sx={{ fontSize: "20px" }} align="right">
+                      <TableCell align="right">
                         <Button
                           onClick={() =>
                             this.deleteWord1(word[0], this.props.userBaseId)
