@@ -1,5 +1,5 @@
 import { Chip } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 const LearnedWords = (props) => {
@@ -10,19 +10,14 @@ const LearnedWords = (props) => {
         borderRadius: 1,
         fontSize: 20,
       }}
-      label={
-        "В вашем словарном запасе: " +
-        props.length +
-        (props.length > 4 ? " слов" : " слова")
-      }
+      label={"Количество слов в словарном запасе: " + props.userWordsLength}
     />
   );
 };
 
 function mapStateToProps(state) {
   return {
-    length: 1,
-    // length: Object.keys(state.words.userBase.words).length,
+    userWordsLength: Object.keys(state.words.userBase.words).length,
   };
 }
 

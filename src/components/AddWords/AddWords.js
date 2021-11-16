@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Add } from "@mui/icons-material";
 import { Button, TextField } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, ThemeProvider } from "@mui/system";
 import { connect } from "react-redux";
-import { addNewWord } from "../../store/actions/words";
+import { addNewWord, fetchLearnEnglichApp } from "../../store/actions/words";
+import { theme } from "../UI/UIColors/UiColors";
 
 class AddWords extends Component {
   state = {
@@ -11,13 +12,12 @@ class AddWords extends Component {
     rusUserWord: "",
     successBtn: {
       name: "Добавить новое слово",
-      color: "primary",
+      color: "BgGradient12",
       bg: "outlined",
     },
   };
 
   addWord() {
-    console.log(Boolean(this.state.rusUserWord.match(/[а-яА-Я]/i)));
     if (
       this.state.engUserWord === "" ||
       this.state.rusUserWord === "" ||
@@ -30,12 +30,14 @@ class AddWords extends Component {
           color: "error",
           bg: "outlined",
         },
+        engUserWord: "",
+        rusUserWord: "",
       });
       setTimeout(() => {
         this.setState({
           successBtn: {
             name: "Добавить новое слово",
-            color: "primary",
+            color: "BgGradient12",
             bg: "outlined",
           },
         });
@@ -51,8 +53,8 @@ class AddWords extends Component {
         false: 0,
       },
     };
-    let userId = this.props.userBaseId;
-    this.props.addNewWord(word, userId);
+    console.log(this.props);
+    this.props.addNewWord(word, this.props.userBaseId);
     this.clearInputs();
   }
 
@@ -79,7 +81,7 @@ class AddWords extends Component {
   }
   render() {
     return (
-      <>
+      <ThemeProvider theme={theme}>
         <Box
           sx={{
             display: "flex",
@@ -91,7 +93,7 @@ class AddWords extends Component {
         >
           <TextField
             sx={{ flexGrow: 1, mr: 1 }}
-            color="success"
+            color="BgGradient12"
             size="small"
             variant="outlined"
             value={this.state.engUserWord}
@@ -106,7 +108,7 @@ class AddWords extends Component {
           />
           <TextField
             sx={{ flexGrow: 1, mr: 1 }}
-            color="success"
+            color="BgGradient12"
             size="small"
             variant="outlined"
             value={this.state.rusUserWord}
@@ -120,7 +122,9 @@ class AddWords extends Component {
             }}
           />
           <Button
-            onClick={() => this.addWord()}
+            onClick={() => {
+              this.addWord();
+            }}
             sx={{ p: 0.9 }}
             variant={this.state.successBtn.bg}
             color={this.state.successBtn.color}
@@ -129,7 +133,7 @@ class AddWords extends Component {
             <Add />
           </Button>
         </Box>
-      </>
+      </ThemeProvider>
     );
   }
 }

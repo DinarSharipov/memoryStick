@@ -6,5 +6,9 @@ export let theme = createTheme({
       main: "#352d00",
       contrastText: "#fff",
     },
+    BgGradient12: {
+      main: "#ffffff",
+      contrastText: "#000000",
+    },
   },
 });

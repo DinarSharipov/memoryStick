@@ -3,6 +3,7 @@ import {
   FETCH_START,
   DELETE_WORD,
   SET_USER_BASE,
+  AUTH_LOGOUT,
 } from "../actions/actionTypes";
 
 const initialState = {

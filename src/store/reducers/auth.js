@@ -23,6 +23,7 @@ export default function authReducers(state = initialState, action) {
         ...state,
         token: null,
         userId: null,
+        userBaseId: null,
       };
     case ADD_USER_BASE_ID:
       return {

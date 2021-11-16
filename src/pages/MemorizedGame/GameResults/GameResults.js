@@ -12,10 +12,35 @@ import {
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { pushResults } from "../../../store/actions/words";
+import { useEffect, useState } from "react";
 
 const GameResults = (props) => {
+  const [words, setWords] = useState(
+    Object.entries(props.location.propsSearch).map((item) => {
+      return item[1];
+    })
+  );
+
+  function preparationAndPushResults() {
+    let readyWords = Object.entries(props.location.propsSearch);
+    readyWords.map((word) => {
+      let readyWord = word;
+      if (readyWord[1].userAnswer == readyWord[1].rus) {
+        readyWord[1].lastAnswer = true;
+        readyWord[1].statistics.true += 1;
+        delete readyWord[1].userAnswer;
+      } else {
+        readyWord[1].lastAnswer = false;
+        readyWord[1].statistics.false += 1;
+        delete readyWord[1].userAnswer;
+      }
+    });
+    props.pushResults(readyWords, props.userBaseId);
+  }
+
   return (
     <div>
+      {}
       <TableContainer>
         <Table>
           <TableHead>
@@ -27,13 +52,13 @@ const GameResults = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.location.propsSearch.map((item) => (
+            {words.map((item) => (
               <TableRow>
-                <TableCell>{item.engWord}</TableCell>
-                <TableCell>{item.userWord}</TableCell>
-                <TableCell>{item.rusWord}</TableCell>
+                <TableCell>{item.eng}</TableCell>
+                <TableCell>{item.userAnswer}</TableCell>
+                <TableCell>{item.rus}</TableCell>
                 <TableCell>
-                  {item.trueFalse ? (
+                  {item.userAnswer == item.rus ? (
                     <Alert
                       severity="success"
                       variant="string"
@@ -60,7 +85,8 @@ const GameResults = (props) => {
         <Link to="/allwords">
           <Button
             onClick={() => {
-              props.pushResults(props.location.propsSearch, props.userBaseId);
+              preparationAndPushResults();
+              // props.pushResults(props.location.propsSearch, props.userBaseId);
             }}
           >
             Сохранить результат

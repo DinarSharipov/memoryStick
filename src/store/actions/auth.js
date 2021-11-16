@@ -34,7 +34,7 @@ export function auth(login, password, isLogin) {
     if (!isLogin) {
       dispatch(newUserData(data.localId));
     } else {
-      getFireBaseId(data.localId);
+      dispatch(getFireBaseId(data.localId));
     }
   };
 }
@@ -80,6 +80,7 @@ export function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("userId");
   localStorage.removeItem("expirationDate");
+  localStorage.removeItem("localId");
   return {
     type: AUTH_LOGOUT,
   };
@@ -110,6 +111,7 @@ export function newUserData(idToken) {
         },
       }).then((res) => {
         userBaseId = res.data.name;
+        console.log(userBaseId);
       });
     } catch (error) {
       console.log(error);
@@ -119,7 +121,6 @@ export function newUserData(idToken) {
 }
 
 export function getFireBaseId(localId) {
-  console.log(localId);
   return async (dispatch) => {
     let userBaseId = "";
     console.log(localId);
@@ -130,7 +131,6 @@ export function getFireBaseId(localId) {
         )
         .then((res) =>
           Object.keys(res.data).forEach((item, index) => {
-            console.log(res.data[item].userId, localId);
             if (res.data[item].userId == localId) {
               userBaseId = Object.keys(res.data)[index];
             }
