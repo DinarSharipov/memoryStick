@@ -1,39 +1,31 @@
 import React from "react";
-import {
-  Button,
-  Stack,
-  Chip,
-  FormControlLabel,
-  Switch,
-  TextField,
-  Collapse,
-} from "@mui/material";
+import { Stack, Chip, TextField, Collapse } from "@mui/material";
 
 const GameInputComp = (props) => {
   return (
-    <Stack alignItems="center" spacing={1}>
+    <Stack alignItems="center" sx={{ mt: 2 }}>
       <Stack
         direction="row"
         spacing={1}
         sx={{
           height: "50px",
-          width: "100%",
           m: 2,
           display: "flex",
+          flexWrap: "wrap",
           alignItems: "center",
           justifyContent: "flex-start",
         }}
       >
         <Chip
-          sx={{ fontSize: 24, p: 2 }}
+          sx={{ fontSize: 18, p: 1 }}
           color="primary"
           label={props.word.eng}
         />
         <Collapse in={!props.checked}>
           <Chip
             sx={{
-              fontSize: 24,
-              p: 2,
+              fontSize: 18,
+              p: 1,
             }}
             color="success"
             label={props.word.rus}
@@ -41,11 +33,15 @@ const GameInputComp = (props) => {
         </Collapse>
         <Collapse in={props.checked}>
           <TextField
-            sx={{ width: 300 }}
+            sx={{ minWidth: "300px", mt: 1 }}
             size="small"
             label="Напишите перевод слова"
             onChange={(e) =>
-              props.checkWord(e.target.value.toLowerCase(), props.word, props.wordId)
+              props.checkWord(
+                e.target.value.toLowerCase(),
+                props.word,
+                props.wordId
+              )
             }
           />
         </Collapse>

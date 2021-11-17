@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  Button,
-  FormControlLabel,
-  Switch,
-  Typography,
-} from "@mui/material";
+import { Button, FormControlLabel, Switch, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import GameInputComp from "../../components/GameInputComp/GameInputComp";
 import { fetchLearnEnglichApp } from "../../store/actions/words";
@@ -70,17 +65,27 @@ class MemorizedGame extends Component {
     return (
       <>
         {this.props.userWords != null ? (
-          <div>
-            <div>
-              <Link to="/learnEnglishApp">
-                <Button color="success" variant="outlined">
-                  Назад
-                </Button>
-              </Link>
+          <div style={{ padding: "20px" }}>
+            <Link to="/learnEnglishApp">
+              <Button color="success" variant="outlined">
+                Назад
+              </Button>
+            </Link>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+              }}
+            >
+              <Typography variant="h5" textAlign="center">
+                Запомните как переводятся слова и жмите кнопку готов играть!
+              </Typography>
               {this.renderGame()}
 
               {/* Кнопка готов вкл/выкл */}
               <FormControlLabel
+                sx={{ mt: 3 }}
                 disabled={this.state.checked}
                 control={
                   <Switch
@@ -88,7 +93,7 @@ class MemorizedGame extends Component {
                     onChange={this.handleChange}
                   />
                 }
-                label="Готов!"
+                label="Готов играть!"
               />
               {/* /// */}
 
@@ -98,7 +103,15 @@ class MemorizedGame extends Component {
                   propsSearch: this.state.gameResults,
                 }}
               >
-                <Button variant="outlined" color="info">
+                <Button
+                  sx={{ display: this.state.checked ? "block" : "none" }}
+                  disabled={
+                    Object.keys(this.state.gameResults).length !=
+                    this.props.location.propsSearch
+                  }
+                  variant="outlined"
+                  color="info"
+                >
                   Проверить слова!
                 </Button>
               </Link>

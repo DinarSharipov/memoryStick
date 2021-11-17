@@ -6,17 +6,14 @@ import { auth } from "../../store/actions/auth";
 
 const modal = {
   display: "flex",
-  left: 0,
-  right: 0,
   margin: "auto",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
   border: "1px solid #ffffff",
-  borderRadius: "15px",
+  borderRadius: "10px",
   maxWidth: "650px",
-  padding: "20px",
-  position: "absolute",
+  padding: "10px",
 };
 
 class Auth extends Component {
@@ -61,8 +58,9 @@ class Auth extends Component {
   render() {
     return (
       <Box sx={modal}>
-        <Typography variant="h4" color="white">
-          Войдите в систему
+        
+        <Typography variant="h6" color="white">
+          Войдите в приложение
         </Typography>
 
         <TextField
@@ -80,8 +78,8 @@ class Auth extends Component {
           onChange={(e) => this.setPassword(e)}
         />
 
-        <ButtonGroup>
-          <Button
+        <ButtonGroup sx={{width: "100%"}}>
+          <Button 
             disabled={
               this.state.loginTest && this.state.passwordTest ? false : true
             }

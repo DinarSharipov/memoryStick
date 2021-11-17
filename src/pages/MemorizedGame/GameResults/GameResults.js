@@ -81,9 +81,14 @@ const GameResults = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <ButtonGroup sx={{width:"100%", p: 2 , justifyContent: "space-around"}} >
+      <ButtonGroup
+        sx={{ p: 2, display: "flex", justifyContent: "space-around" }}
+      >
         <Link to="/allwords">
-          <Button variant="outlined" color="success"
+          <Button
+            sx={{ m: 1 }}
+            variant="outlined"
+            color="success"
             onClick={() => {
               preparationAndPushResults();
               // props.pushResults(props.location.propsSearch, props.userBaseId);
@@ -93,9 +98,9 @@ const GameResults = (props) => {
           </Button>
         </Link>
         <Link to="/learnEnglishApp">
-            <Button color="error" variant="outlined">
-                Выйти без сохранения
-            </Button>
+          <Button color="error" variant="outlined" sx={{ m: 1 }}>
+            Выйти без сохранения
+          </Button>
         </Link>
       </ButtonGroup>
     </div>
