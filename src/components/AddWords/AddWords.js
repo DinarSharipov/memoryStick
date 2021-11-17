@@ -45,8 +45,8 @@ class AddWords extends Component {
       return;
     }
     let word = {
-      eng: this.state.engUserWord,
-      rus: this.state.rusUserWord,
+      eng: this.state.engUserWord.toLowerCase(),
+      rus: this.state.rusUserWord.toLowerCase(),
       lastAnswer: "-",
       statistics: {
         true: 0,
@@ -106,7 +106,7 @@ class AddWords extends Component {
             }}
           />
           <TextField
-            sx={{ flexGrow: 1, m: 1, mb: 2 }}
+            sx={{ flexGrow: 1, m: 1 }}
             color="BgGradient12"
             size="small"
             variant="outlined"

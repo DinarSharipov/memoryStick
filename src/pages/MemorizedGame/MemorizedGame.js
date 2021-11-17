@@ -2,12 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   Button,
-  Stack,
-  Chip,
   FormControlLabel,
   Switch,
-  TextField,
-  Collapse,
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";

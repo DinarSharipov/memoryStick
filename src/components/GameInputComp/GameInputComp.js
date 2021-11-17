@@ -45,7 +45,7 @@ const GameInputComp = (props) => {
             size="small"
             label="Напишите перевод слова"
             onChange={(e) =>
-              props.checkWord(e.target.value, props.word, props.wordId)
+              props.checkWord(e.target.value.toLowerCase(), props.word, props.wordId)
             }
           />
         </Collapse>

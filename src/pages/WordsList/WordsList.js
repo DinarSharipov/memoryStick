@@ -149,8 +149,8 @@ class WordsList extends Component {
                 ? this.state.words.map((word, index) => (
                     <TableRow key={index}>
                       <TableCell align="left">{index + 1}</TableCell>
-                      <TableCell align="right">{word[1].eng}</TableCell>
-                      <TableCell align="right">{word[1].rus}</TableCell>
+                      <TableCell align="left">{word[1].eng}</TableCell>
+                      <TableCell align="left">{word[1].rus}</TableCell>
                       <TableCell align="center">
                         {this.lastAnswer(word[1].lastAnswer)}
                       </TableCell>
