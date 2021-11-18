@@ -14,10 +14,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { deleteWord } from "../../store/actions/words";
 import { fetchLearnEnglichApp } from "../../store/actions/words";
-import LoaderComp from "../../components/UI/Loader/LoaderComp";
-import SearchComp from "../../components/SearchComp/SearchComp";
 import { Link } from "react-router-dom";
 import LearnedWords from "../MemorizedGame/LearnedWords/LearnedWords";
+import SearchComp from "../../../components/SearchComp/SearchComp";
 
 class WordsList extends Component {
   state = {

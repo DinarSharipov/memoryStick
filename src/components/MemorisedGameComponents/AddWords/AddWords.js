@@ -3,8 +3,8 @@ import { Add } from "@mui/icons-material";
 import { Button, TextField } from "@mui/material";
 import { Box, ThemeProvider } from "@mui/system";
 import { connect } from "react-redux";
-import { addNewWord, fetchLearnEnglichApp } from "../../store/actions/words";
-import { theme } from "../UI/UIColors/UiColors";
+import { addNewWord, fetchLearnEnglichApp } from "../../../store/actions/words";
+import { theme } from "../../UI/UIColors/UiColors";
 
 class AddWords extends Component {
   state = {

@@ -2,20 +2,20 @@ import { Button, Typography, Grid, Box } from "@mui/material";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import AddWords from "../../components/AddWords/AddWords";
 import classes from "./MemorizedWords.module.css";
-import { fetchLearnEnglichApp } from "../../store/actions/words";
+import { fetchLearnEnglichApp } from "../../../store/actions/words";
 import ViewListOutlinedIcon from "@mui/icons-material/ViewListOutlined";
 import { Link } from "react-router-dom";
 import { ThemeProvider } from "@mui/system";
-import { theme } from "../../components/UI/UIColors/UiColors";
+import { theme } from "../../../components/UI/UIColors/UiColors";
+import AddWords from "../../../components/MemorisedGameComponents/AddWords/AddWords";
 
 class MemorizedWordsMode extends Component {
   state = {
     textStyle: {
       border: "1px solid #fff",
       color: "#fff",
-      borderRadius: 4,
+      borderRadius: 3,
       textAlign: "center",
       p: "10px 20px",
       m: 2,

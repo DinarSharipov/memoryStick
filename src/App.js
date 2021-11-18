@@ -2,7 +2,6 @@ import "./App.css";
 import HeaderComp from "./components/Header/HeaderComp";
 import MainCont from "./hoc/MainCont/MainCont";
 import { Route, Switch } from "react-router-dom";
-import MemorizedWordsMode from "./pages/MemorizedWords/MemorizedWordsMode";
 import MemorizedGame from "./pages/MemorizedGame/MemorizedGame";
 import WordsList from "./pages/WordsList/WordsList";
 import GameResults from "./pages/MemorizedGame/GameResults/GameResults";
@@ -11,6 +10,9 @@ import Auth from "./pages/Auth/Auth";
 import { connect } from "react-redux";
 import { useEffect } from "react";
 import { autoLogin } from "./store/actions/auth";
+import MemorizedWordsMode from "./pages/MemorizedGame/MemorizedWords/MemorizedWordsMode";
+import GameMode from "./pages/DragAndDropPage/GameMode/GameMode";
+import DnDGame from "./pages/DragAndDropPage/DnDGame/DnDGame";
 
 function App(props) {
   let routes = (
@@ -29,6 +31,8 @@ function App(props) {
         <Route path="/" exact component={AppList} />
         <Route path="/wordslist" exact component={WordsList} />
         <Route path="/gameresults" exact component={GameResults} />
+        <Route path="/drag&dropApp" exact component={GameMode} />
+        <Route path="/drag&dropApp/:id" exact component={DnDGame} />
         <Route path="/:id" exact component={MemorizedWordsMode} />
         <Route path="/mode/:id" exact component={MemorizedGame} />
       </Switch>

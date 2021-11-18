@@ -9,3 +9,4 @@ export const AUTH_LOGOUT = "AUTH_LOGOUT";
 export const SET_USER_BASE = "SET_USER_BASE";
 export const ADD_USER_BASE_ID = "ADD_USER_BASE_ID";
 export const ERROR_AUTH = "ERROR_AUTH";
+export const FETCH_DND_APP = "FETCH_DND_APP";

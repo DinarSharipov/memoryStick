@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, FormControlLabel, Switch, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import GameInputComp from "../../components/GameInputComp/GameInputComp";
 import { fetchLearnEnglichApp } from "../../store/actions/words";
+import GameInputComp from "../../components/MemorisedGameComponents/GameInputComp/GameInputComp";
 
 class MemorizedGame extends Component {
   state = {
