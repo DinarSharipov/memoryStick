@@ -2,40 +2,45 @@ import { Button, Typography, Grid, Box } from "@mui/material";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import AddWords from "../../components/AddWords/AddWords";
 import classes from "./MemorizedWords.module.css";
-import { fetchAllWordsLength } from "../../store/actions/words";
+import { fetchLearnEnglichApp } from "../../../store/actions/words";
 import ViewListOutlinedIcon from "@mui/icons-material/ViewListOutlined";
 import { Link } from "react-router-dom";
-import LearnedWords from "../../components/MemorizedGame/LearnedWords/LearnedWords";
+import { ThemeProvider } from "@mui/system";
+import { theme } from "../../../components/UI/UIColors/UiColors";
+import AddWords from "../../../components/MemorisedGameComponents/AddWords/AddWords";
 
 class MemorizedWordsMode extends Component {
   state = {
     textStyle: {
-      background: "linear-gradient(180deg, rgb(32, 53, 122), rgb(41, 22, 9))",
-      border: "2px solid #fff",
+      border: "1px solid #fff",
       color: "#fff",
-      borderRadius: 4,
+      borderRadius: 3,
       textAlign: "center",
       p: "10px 20px",
       m: 2,
     },
   };
   componentDidMount() {
-    this.props.fetchAllWordsLength();
+    this.props.fetchLearnEnglichApp(this.props.userId);
   }
   render() {
     return (
       <div className={classes.root}>
         <>
           <Typography variant="h6" sx={this.state.textStyle}>
-            Протестируй сколько слов ты помнишь
+            Повтори слова которые уже знаешь.
           </Typography>
           <Grid container spacing={1} justifyContent="center">
             {this.props.modeList.map((item, i) => {
               return (
                 <Grid item xs="auto" key={i}>
-                  <NavLink to={"/mode/" + item.modeLength}>
+                  <NavLink
+                    to={{
+                      pathname: "/mode/" + item.modeLength,
+                      propsSearch: item.modeLength,
+                    }}
+                  >
                     <Button
                       sx={{
                         fontSize: "22px",
@@ -44,7 +49,7 @@ class MemorizedWordsMode extends Component {
                         backgroundColor: ` rgb(${100 + i * 40}, ${
                           200 - i * 60
                         }, 0)`,
-                        border: "2px solid #fff",
+                        border: "1px solid #fff",
                         borderRadius: 4,
                         color: "#fff",
                       }}
@@ -68,9 +73,9 @@ class MemorizedWordsMode extends Component {
           }}
         >
           <Typography variant="h6" color="initial" sx={this.state.textStyle}>
-            Добавьте новое слово в ваш словарный запас!
+            Для расширения своего словарного запаса добавляй новые слова ниже!
           </Typography>
-          <AddWords AllWords={this.props.AllWords} />
+          <AddWords restartPage={this.componentDidMount} />
         </Box>
         <Box
           sx={{
@@ -82,12 +87,13 @@ class MemorizedWordsMode extends Component {
           }}
         >
           <Link to="/wordslist" style={{ color: "white" }}>
-            <Button variant="contained" color="primary">
-              Показать мой словарный запас
-              <ViewListOutlinedIcon />
-            </Button>
+            <ThemeProvider theme={theme}>
+              <Button variant="outlined" color="BgGradient12" sx={{ mb: 6 }}>
+                Показать мой словарный запас
+                <ViewListOutlinedIcon />
+              </Button>
+            </ThemeProvider>
           </Link>
-          <LearnedWords />
         </Box>
       </div>
     );
@@ -96,13 +102,15 @@ class MemorizedWordsMode extends Component {
 
 function mapStateToProps(state) {
   return {
-    AllWords: state.words.AllWords,
+    userId: state.auth.userId,
+    userWords: state.words.userWords,
     modeList: state.words.modeList,
+    userBaseId: state.auth.userBaseId,
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    fetchAllWordsLength: () => dispatch(fetchAllWordsLength()),
+    fetchLearnEnglichApp: (userId) => dispatch(fetchLearnEnglichApp(userId)),
   };
 }
 

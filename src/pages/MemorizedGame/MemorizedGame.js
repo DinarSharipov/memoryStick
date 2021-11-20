@@ -1,23 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  Button,
-  Stack,
-  Chip,
-  FormControlLabel,
-  Switch,
-  TextField,
-  Collapse,
-} from "@mui/material";
-import LoaderComp from "../../components/UI/Loader/LoaderComp";
+import { Button, FormControlLabel, Switch, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import GameInputComp from "../../components/GameInputComp/GameInputComp";
+import { fetchLearnEnglichApp } from "../../store/actions/words";
+import GameInputComp from "../../components/MemorisedGameComponents/GameInputComp/GameInputComp";
 
 class MemorizedGame extends Component {
   state = {
     checked: false,
     gameResults: {},
-    results: [],
+    randomWord: [],
   };
 
   handleChange = () => {
@@ -26,17 +18,33 @@ class MemorizedGame extends Component {
     });
   };
 
-  checkWord(userAnswer, word, wordId) {
-    console.log(userAnswer, word, wordId);
-    if (userAnswer === word) {
+  checkWord = (userAnswer, word, wordId) => {
+    let gameResults = { ...this.state.gameResults };
+    if (gameResults[wordId]) {
+      gameResults[wordId] = { userAnswer, ...word };
+    } else {
+      gameResults[wordId] = { userAnswer, ...word };
     }
-  }
+    this.setState({
+      gameResults,
+    });
+  };
 
-  componentDidMount() {}
+  async componentDidMount() {
+    await this.props.fetchLearnEnglichApp(this.props.userId);
+    if (this.props.userWords == null) {
+      return;
+    }
+    let randomWord = [...Object.entries(this.props.userWords)];
+    randomWord.sort(() => Math.random() - 0.5);
+    this.setState({
+      randomWord,
+    });
+  }
 
   renderGame() {
     let wordsList = [];
-    for (let [wordId, word] of Object.entries(this.props.userWords)) {
+    for (let [wordId, word] of this.state.randomWord) {
       if (this.props.location.propsSearch === wordsList.length) {
         return wordsList;
       }
@@ -55,40 +63,67 @@ class MemorizedGame extends Component {
 
   render() {
     return (
-      <div onClick={() => console.log(this.props)}>
-        <div>
-          <Link to="/learnEnglishApp">
-            <Button color="success" variant="outlined">
-              Назад
-            </Button>
-          </Link>
-          {this.renderGame()}
+      <>
+        {this.props.userWords != null ? (
+          <div style={{ padding: "20px" }}>
+            <Link to="/learnEnglishApp">
+              <Button color="success" variant="outlined">
+                Назад
+              </Button>
+            </Link>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+              }}
+            >
+              <Typography variant="h5" textAlign="center">
+                Запомните как переводятся слова и жмите кнопку готов играть!
+              </Typography>
+              {this.renderGame()}
 
-          {/* Кнопка готов вкл/выкл */}
-          <FormControlLabel
-            disabled={this.state.checked}
-            control={
-              <Switch
-                checked={this.state.checked}
-                onChange={this.handleChange}
+              {/* Кнопка готов вкл/выкл */}
+              <FormControlLabel
+                sx={{ mt: 3 }}
+                disabled={this.state.checked}
+                control={
+                  <Switch
+                    checked={this.state.checked}
+                    onChange={this.handleChange}
+                  />
+                }
+                label="Готов играть!"
               />
-            }
-            label="Готов!"
-          />
-          {/* /// */}
+              {/* /// */}
 
-          <Link
-            to={{
-              pathname: "/gameresults",
-              propsSearch: this.state.gameResults,
-            }}
-          >
-            <Button variant="outlined" color="info">
-              Проверить слова!
-            </Button>
-          </Link>
-        </div>
-      </div>
+              <Link
+                to={{
+                  pathname: "/gameresults",
+                  propsSearch: this.state.gameResults,
+                }}
+              >
+                <Button
+                  sx={{ display: this.state.checked ? "block" : "none" }}
+                  variant="outlined"
+                  color="info"
+                >
+                  Проверить слова!
+                </Button>
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <>
+            <Typography variant="h3">Слов пока нет</Typography>
+            <Link to="/learnEnglishApp">
+              <Button variant="outlined" color="success">
+                Назад
+              </Button>
+            </Link>
+          </>
+        )}
+      </>
     );
   }
 }
@@ -96,11 +131,16 @@ class MemorizedGame extends Component {
 function mapStateToProps(state) {
   return {
     AllWords: state.words.AllWords,
-    length: state.words.length,
-    userWordsValues: Object.values(state.words.userBase.words),
-    userWordsKeys: Object.keys(state.words.userBase.words),
-    userWords: state.words.userBase.words,
+    userId: state.auth.userId,
+    userWords:
+      state.words.userBase.words != null ? state.words.userBase.words : null,
   };
 }
 
-export default connect(mapStateToProps)(MemorizedGame);
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchLearnEnglichApp: (userId) => dispatch(fetchLearnEnglichApp(userId)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MemorizedGame);

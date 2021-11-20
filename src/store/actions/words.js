@@ -17,7 +17,6 @@ export function fetchLearnEnglichApp(userId) {
       Object.keys(base.users).forEach((item) => {
         let user = base.users[item];
         if (user.userId === userId) {
-          console.log(user);
           dispatch({
             type: SET_USER_BASE,
             userBase: user,
@@ -32,6 +31,7 @@ export function fetchLearnEnglichApp(userId) {
 
 //ДОБАВЛЕНИЕ НОВОГО СЛОВА В СЛОВАРНЫЙ ЗАПАС ПОЛЬЗОВАТЕЛЯ
 export function addNewWord(newWord, userBaseId) {
+  console.log(newWord, userBaseId);
   return async () => {
     try {
       console.log(userBaseId);
@@ -47,10 +47,12 @@ export function addNewWord(newWord, userBaseId) {
 }
 
 //УДАЛЕНИЕ СЛОВА ИЗ СЛОВАРНОГО ЗАПАСА ПОЛЬЗОВАТЕЛЯ
-export function deleteWord(id) {
+export function deleteWord(wordId, userBaseId) {
   return async () => {
     try {
-      await axios.delete(`/allwords/${id}.json`);
+      await axios.delete(
+        `/learnEnglishApp/users/${userBaseId}/words/${wordId}.json`
+      );
     } catch (error) {
       console.log(error);
     }
@@ -58,22 +60,14 @@ export function deleteWord(id) {
 }
 
 //ОТПРАВКА РЕЗУЛЬТАТОВ ИГРЫ В БАЗУ ДАННЫХ
-export function pushResults(results, userBaseId) {
-  console.log(results);
+export function pushResults(readyWords, userBaseId) {
   return async () => {
     try {
-      await results.forEach((word) => {
-        let newword = {
-          eng: word.engWord,
-          rus: word.rusWord,
-          lastAnswer: word.trueFalse,
-          statistics: word.statistics,
-        };
+      await readyWords.forEach((word) => {
         const response = axios.put(
-          `/learnEnglishApp/users/${userBaseId}/words/${word.id}.json`,
-          newword
+          `/learnEnglishApp/users/${userBaseId}/words/${word[0]}.json`,
+          word[1]
         );
-        console.log(word);
       });
     } catch (error) {
       console.log(error);

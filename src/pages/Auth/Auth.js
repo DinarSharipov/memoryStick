@@ -6,81 +6,114 @@ import { auth } from "../../store/actions/auth";
 
 const modal = {
   display: "flex",
-  left: 0,
-  right: 0,
   margin: "auto",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
   border: "1px solid #ffffff",
-  borderRadius: "15px",
+  borderRadius: "10px",
   maxWidth: "650px",
-  padding: "20px",
-  position: "absolute",
+  padding: "10px",
 };
 
 class Auth extends Component {
   state = {
     login: "",
     password: "",
+    loginTest: false,
+    passwordTest: false,
   };
 
   setLogin(e) {
+    let loginReg = new RegExp(/\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6}/i);
+    let loginRegRus = new RegExp(/[а-яА-Я]/i);
     let login = this.state.login;
-    login = e.target.value;
-    this.setState({
-      login,
-    });
+    if (loginReg.test(e.target.value) && !loginRegRus.test(e.target.value)) {
+      login = e.target.value;
+      this.setState({
+        login,
+        loginTest: true,
+      });
+    } else {
+      login = e.target.value;
+      this.setState({
+        login,
+        loginTest: false,
+      });
+    }
   }
   setPassword(e) {
     let password = this.state.password;
     password = e.target.value;
     this.setState({
       password,
+      passwordTest: true,
     });
+  }
+
+  enter(login, password, isLogin) {
+    this.props.auth(login, password, isLogin);
   }
 
   render() {
     return (
       <Box sx={modal}>
-        <Typography variant="h4" color="white">
-          Войдите в систему
+        
+        <Typography variant="h6" color="white">
+          Войдите в приложение
         </Typography>
 
         <TextField
           sx={{ width: "100%", p: 1 }}
-          color="success"
-          label="Введите логин"
+          color={this.state.loginTest ? "success" : "error"}
+          label="Введите адрес электронной почты"
           value={this.state.login}
           onChange={(e) => this.setLogin(e)}
         />
         <TextField
           sx={{ width: "100%", p: 1 }}
-          color="success"
+          color={this.state.passwordTest ? "success" : "error"}
           label="Введите пароль"
           value={this.state.password}
           onChange={(e) => this.setPassword(e)}
         />
 
-        <ButtonGroup>
-          <Button
+        <ButtonGroup sx={{width: "100%"}}>
+          <Button 
+            disabled={
+              this.state.loginTest && this.state.passwordTest ? false : true
+            }
             onClick={() =>
-              this.props.auth(this.state.login, this.state.password, true)
+              this.enter(this.state.login, this.state.password, true)
             }
           >
             Войти
           </Button>
           <Button
+            disabled={
+              this.state.loginTest && this.state.passwordTest ? false : true
+            }
             onClick={() =>
-              this.props.auth(this.state.login, this.state.password, false)
+              this.enter(this.state.login, this.state.password, false)
             }
           >
             Зарегистрироваться
           </Button>
         </ButtonGroup>
+        {this.props.errorAuth}
       </Box>
     );
   }
+}
+
+function mapStateToProps(state) {
+  return {
+    errorAuth: state.auth.errorAuth ? (
+      <Typography variant="h6" sx={{ pt: 2 }}>
+        Ошибка авторизации!
+      </Typography>
+    ) : null,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -90,4 +123,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

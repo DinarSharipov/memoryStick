@@ -18,14 +18,20 @@ class HeaderComp extends Component {
         <ThemeProvider theme={theme}>
           <Box>
             <AppBar position="relative" color="BgGradient1">
-              <Toolbar>
+              <Toolbar sx={{ justifyContent: "space-between" }}>
                 <NavLink to="/" style={{ marginRight: 20, color: "#fff" }}>
                   <Typography variant="h6">
                     {this.props.isAuth ? "Мои приложения" : "Авторизация"}
                   </Typography>
                 </NavLink>
                 {this.props.isAuth ? (
-                  <Button onClick={() => this.props.logout()}>Выйти</Button>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={() => this.props.logout()}
+                  >
+                    Выйти
+                  </Button>
                 ) : (
                   <Redirect to="/" />
                 )}

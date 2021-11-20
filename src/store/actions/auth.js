@@ -1,6 +1,11 @@
 import axios from "axios";
 import axiosUrl from "../../axios/axios";
-import { AUTH_SUCCESS, AUTH_LOGOUT, ADD_USER_BASE_ID } from "./actionTypes";
+import {
+  AUTH_SUCCESS,
+  AUTH_LOGOUT,
+  ADD_USER_BASE_ID,
+  ERROR_AUTH,
+} from "./actionTypes";
 
 export function auth(login, password, isLogin) {
   return async (dispatch) => {
@@ -16,10 +21,15 @@ export function auth(login, password, isLogin) {
       url =
         "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC2lEaiEOjRq4fPhDGuoiRM4FKdVwOMKFA";
     }
+    let response = null;
+    try {
+      response = await axios.post(url, authData);
+    } catch (error) {
+      console.log(error);
+      return dispatch({ type: ERROR_AUTH });
+    }
 
-    const response = await axios.post(url, authData);
     const data = response.data;
-
     const expirationDate = new Date(
       new Date().getTime() + data.expiresIn * 1000
     );
@@ -34,7 +44,7 @@ export function auth(login, password, isLogin) {
     if (!isLogin) {
       dispatch(newUserData(data.localId));
     } else {
-      getFireBaseId(data.localId);
+      dispatch(getFireBaseId(data.localId));
     }
   };
 }
@@ -80,6 +90,8 @@ export function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("userId");
   localStorage.removeItem("expirationDate");
+  localStorage.removeItem("localId");
+
   return {
     type: AUTH_LOGOUT,
   };
@@ -110,6 +122,7 @@ export function newUserData(idToken) {
         },
       }).then((res) => {
         userBaseId = res.data.name;
+        console.log(userBaseId);
       });
     } catch (error) {
       console.log(error);
@@ -119,7 +132,6 @@ export function newUserData(idToken) {
 }
 
 export function getFireBaseId(localId) {
-  console.log(localId);
   return async (dispatch) => {
     let userBaseId = "";
     console.log(localId);
@@ -130,7 +142,6 @@ export function getFireBaseId(localId) {
         )
         .then((res) =>
           Object.keys(res.data).forEach((item, index) => {
-            console.log(res.data[item].userId, localId);
             if (res.data[item].userId == localId) {
               userBaseId = Object.keys(res.data)[index];
             }

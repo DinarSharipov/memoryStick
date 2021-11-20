@@ -11,7 +11,7 @@ class AppList extends Component {
 
   render() {
     return (
-      <Grid container spacing={2} sx={{ mt: 2 }}>
+      <Grid container spacing={2} sx={{ mt: 2, justifyContent: "center" }}>
         {this.props.AppList ? (
           this.props.AppList.map((app, i) => {
             return <AppItem key={i} app={app} />;
