@@ -105,10 +105,6 @@ class MemorizedGame extends Component {
               >
                 <Button
                   sx={{ display: this.state.checked ? "block" : "none" }}
-                  disabled={
-                    Object.keys(this.state.gameResults).length !=
-                    this.props.location.propsSearch
-                  }
                   variant="outlined"
                   color="info"
                 >

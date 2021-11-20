@@ -12,11 +12,11 @@ import {
 } from "@mui/material";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { deleteWord } from "../../store/actions/words";
-import { fetchLearnEnglichApp } from "../../store/actions/words";
+import { deleteWord, fetchLearnEnglichApp } from "../../../store/actions/words";
+
 import { Link } from "react-router-dom";
-import LearnedWords from "../MemorizedGame/LearnedWords/LearnedWords";
-import SearchComp from "../../../components/SearchComp/SearchComp";
+import LearnedWords from "../LearnedWords/LearnedWords";
+import SearchComp from "../../../components/MemorisedGameComponents/SearchComp/SearchComp";
 
 class WordsList extends Component {
   state = {

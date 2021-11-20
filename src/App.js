@@ -3,7 +3,7 @@ import HeaderComp from "./components/Header/HeaderComp";
 import MainCont from "./hoc/MainCont/MainCont";
 import { Route, Switch } from "react-router-dom";
 import MemorizedGame from "./pages/MemorizedGame/MemorizedGame";
-import WordsList from "./pages/WordsList/WordsList";
+import WordsList from "./pages/MemorizedGame/WordsList/WordsList";
 import GameResults from "./pages/MemorizedGame/GameResults/GameResults";
 import AppList from "./pages/AppList/AppList";
 import Auth from "./pages/Auth/Auth";
